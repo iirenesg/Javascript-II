@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Functions</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Function declarations</h2>
+    <pre>
+      <code class="language-javascript">
+        function sayHi(name) {
+          return `Hi, ${name}!`;
+        }
+
+        console.log(sayHi('Cetav')); 
+        // 'Hi, Cetav!'
+
+        const sayHello = function(name) {
+          return `Hello, ${name}!`;
+        }
+
+        console.log(sayHello('Cetav')); 
+        // 'Hello, Cetav!'
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Arrow function declarations</h2>
+    <pre>
+      <code class="language-javascript">
+        const sayHi = (name) => {
+          return `Hi, ${name}!`;
+        }
+
+        console.log(sayHi('Cetav')); 
+        // 'Hi, Cetav!'
+
+        const sayHello = name => `Hello, ${name}!`;
+
+        console.log(sayHello('Cetav')); 
+        // 'Hello, Cetav!'
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Named and anonymous functions</h2>
+    <pre>
+      <code class="language-javascript">
+        function named() {
+          console.log('This function has a name');
+        }
+
+        function() {
+          console.log('This function does not have a name');
+        }
+
+        named();
+        // 'This function has a name'
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Callbacks</h2>
+    <pre>
+      <code class="language-javascript">
+        function callAnotherFunction(callback) {
+          callback();
+        }
+
+        callAnotherFunction(function() { console.log('I am a callback'); });
+        // 'I am a callback'
+
+        callAnotherFunction(() => { console.log('I am another callback'); });
+        // 'I am another callback'
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">IIFE</h2>
+    <h3 class="slide-subtitle">Immediately Invoked Function Expression</h3>
+    <pre>
+      <code class="language-javascript">
+        (function () {
+          var message = 'I am an IIFE';
+          console.log(message);
+        })();
+        // 'I am an IIFE'
+
+        console.log(message); // Uncaught ReferenceError: message is not defined
+      </code>
+    </pre>
+    <p class="hint">IIFEs help prevent polluting the global namespace, since variables declared inside the function are local.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The <i>this</i></h2>
+    <pre>
+      <code class="language-javascript">
+        function global() {
+          console.log(this);        
+        }
+        global() // window
+
+        var local = {
+          localMethod: function() {
+            console.log(this);
+          }
+        };
+
+        local.localMethod() // local object
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The <i>this</i></h2>
+    <pre>
+      <code class="language-javascript">
+        var local = {
+          name: 'Irene',
+          getName: function() {
+            return this.name;
+          }
+        };
+
+        console.log(local.getName()); // Irene
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Scope</h2>
+    <h3 class="slide-subtitle">Global scope</h3>
+    <pre>
+      <code class="language-javascript">
+        const message = 'Hello, Cetav!';
+
+        function sayHello () {
+          return message;
+        }
+
+        console.log(sayHello()); 
+        // 'Hello, Cetav!'
+
+        console.log(message); 
+        // 'Hello, Cetav!'
+      </code>
+    </pre>
+    <p class="hint">It's not a good practice to declare variables in the global scope. This is because there is a chance of naming collisions, where two or more variables are named the same.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Scope</h2>
+    <h3 class="slide-subtitle">Local scope</h3>
+    <pre>
+      <code class="language-javascript">
+        function sayHello () {
+          const message = 'Hello, Cetav!';
+          return message;
+        }
+        
+        console.log(sayHello()); 
+        // 'Hello, Cetav!'
+
+        console.log(message); 
+        // Uncaught ReferenceError: message is not defined
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Scope</h2>
+    <h3 class="slide-subtitle">Hoisting</h3>
+    <pre>
+      <code class="language-javascript">
+        sayHello(); // 'Hello, Cetav!'
+        function sayHello () {
+          console.log('Hello, Cetav!');
+        }
+
+        sayHi() // Uncaught ReferenceError: sayHi is not defined
+        const sayHi = function () {
+          console.log('Hi, Cetav!')
+        }
+      </code>
+    </pre>
+    <p class="hint">Because of these two variations, function hoisting can be confusing, and it's not a good practice. Always declare your functions before you use them.</p>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Closures</h2>
+    <h3 class="slide-subtitle">Nested Scope</h3>
+    <pre>
+      <code class="language-javascript">
+        function outerFunction () {
+          const outer = `I'm the outer function!`;
+        
+          function innerFunction() {
+            const inner = `I'm the inner function!`;
+            console.log(outer); // I'm the outer function!
+          }
+        
+          console.log(inner); // Uncaught ReferenceError: inner is not defined
+        }
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Closures</h2>
+    <h3 class="slide-subtitle">Higher Order Functions</h3>
+    <pre>
+      <code class="language-javascript">
+        function makeAdder(x) {
+          return function(y) {
+            return x + y;
+          };
+        }
+        
+        var add5 = makeAdder(5);
+        var add10 = makeAdder(10);
+        
+        console.log(add5(2));  // 7
+        console.log(add10(2)); // 12
+      </code>
+    </pre>
+    <p class="hint">Both add5 and add10 are closures. They provide different lexical environments within the same function.</p>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
