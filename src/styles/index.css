@@ -1,0 +1,88 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(242, 200, 121, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.index-wrap {
+  margin: 0 auto;
+  width: fit-content;
+  border: 2px solid black;
+  padding: 20px;
+  position: relative;
+  top: -100px;
+}
+
+.index-wrap h2 {
+  margin-top: 0;
+  text-decoration: underline;
+}
+
+.link-block {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-block:hover {
+  font-weight: bold;
+}
+
+/* Effect 21: borders slight translate */
+.nav-links a {
+	padding: 10px;
+	font-weight: 700;
+	text-shadow: none;
+	-webkit-transition: color 0.3s;
+	-moz-transition: color 0.3s;
+	transition: color 0.3s;
+}
+
+.nav-links a::before,
+.nav-links a::after {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: #fff;
+	content: '';
+	opacity: 0;
+	-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+	-moz-transition: opacity 0.3s, -moz-transform 0.3s;
+	transition: opacity 0.3s, transform 0.3s;
+	-webkit-transform: translateY(-10px);
+	-moz-transform: translateY(-10px);
+	transform: translateY(-10px);
+}
+
+.nav-links a::before {
+	top: 0;
+	-webkit-transform: translateY(-10px);
+	-moz-transform: translateY(-10px);
+	transform: translateY(-10px);
+}
+
+.nav-links a::after {
+	bottom: 0;
+	-webkit-transform: translateY(10px);
+	-moz-transform: translateY(10px);
+	transform: translateY(10px);
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+	color: #fff;
+}
+
+.nav-links a:hover::before,
+.nav-links a:focus::before,
+.nav-links a:hover::after,
+.nav-links a:focus::after {
+	opacity: 1;
+	-webkit-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	transform: translateY(0px);
+}

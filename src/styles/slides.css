@@ -1,0 +1,42 @@
+html, body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+
+.slide-title {
+  font-size: 48px;
+  /* position: absolute;
+  top: 0;
+  left: 50px; */
+}
+
+.slide-subtitle {
+  font-size: 30px;
+  font-weight: normal;
+  margin-top: -20px;
+}
+
+.hint {
+  padding: 20px;
+  width: 70%;
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+.bg-blue { background-color: rgba(73, 158, 191, 1); }
+.bg-cyan { background-color: rgba(120, 210, 235, 1); }
+.bg-yellow { background-color: rgba(242, 200, 121, 1); }
+.bg-orange { background-color: rgba(225, 150, 120, 1); }
+.bg-red { background-color: rgba(242, 129, 119, 1); }
+
+.bg-yellow .hint {
+  background-color: rgba(242, 153, 102, 1);
+}
+
+.bg-cyan .hint {
+  background-color: rgba(242, 200, 121, 1);
+}
+
+.bg-orange .hint {
+  background-color: rgba(100, 190, 235, 1);
+}
