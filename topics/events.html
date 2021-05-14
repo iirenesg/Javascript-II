@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-cyan">
+    <h1>Events</h1>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Event handlers</h2>
+    <h3 class="slide-subtitle">Event attributes on HTML elements</h3>
+    <pre>
+      <code class="language-javascript">
+        &lt;button onclick=&quot;alert('Hello!')&quot;&gt;Text&lt;/button&gt;
+        &lt;button onclick=&quot;(() =&gt; alert('Hello!'))()&quot;&gt;Text&lt;/button&gt;
+        &lt;button onclick=&quot;(function() { alert('Hello!') })()&quot;&gt;Text&lt;/button&gt;
+      </code>
+    </pre>
+    <p class="hint">Assigning an inline HTML event attribute is inefficient and difficult to maintain. It doesn't allow you to reuse handlers and inline javascript can't span multiple lines.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Event handlers</h2>
+    <h3 class="slide-subtitle">HTML script tag</h3>
+    <pre>
+      <code class="language-javascript">
+        &lt;html&gt;
+        &lt;head&gt;
+          &lt;script&gt;
+            function onClickHandler() {
+              alert('Hello!');
+            }
+          &lt;/script&gt; 
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;button onclick=&quot;onClickHandler()&quot;&gt;Text&lt;/button&gt;
+          &lt;button onclick=&quot;onClickHandler()&quot;&gt;Text&lt;/button&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Event handlers</h2>
+    <h3 class="slide-subtitle">Event methods on DOM elements</h3>
+    <pre>
+      <code class="language-javascript">
+        const button = document.getElementById("btn");
+
+        button.onclick = function() {
+          console.log('Hello!');
+        }
+      </code>
+    </pre>
+    <p class="hint">Event methods don't allow you to have more than one handler for each event. Any subsequent event will overwrite the previous one.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <pre>
+      <code class="language-javascript">
+        const button = document.getElementById('btn');
+
+        button.addEventListener('click', () => {
+          console.log('One event');
+        });
+
+        button.addEventListener('click', () => {
+          console.log('Another event');
+        });
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Object listener</h3>
+    <pre>
+      <code class="language-javascript">
+        let eventObj = {
+          handleEvent(event) {
+            console.log('Hello!');
+          }
+        };
+      
+        button.addEventListener('click', eventObj);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Remove event</h3>
+    <pre>
+      <code class="language-javascript">
+        const button = document.getElementById('btn');
+        const handler = () => console.log('One event');
+
+        button.addEventListener('click', handler);
+        button.addEventListener('click', () => console.log('Another event'));
+
+        button.removeEventListener('click', handler);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Options</h3>
+    <pre>
+      <code class="language-javascript">
+        const button = document.getElementById('btn');
+        const handler = () => console.log('Event fired');
+
+        button.addEventListener('click', handler, { once: true, passive: true });
+      </code>
+    </pre>
+    <div class="hint">
+      <p>Once: if true, the listener will be automatically removed when invoked.</p>
+      <p>Passive: if true, indicates that the handler will never call preventDefault().</p>
+      <p>Signal: the listener will be removed when the given AbortSignal’s abort() method is called.</p>
+    </div>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">UseCapture</h3>
+    <pre>
+      <code class="language-javascript">
+        const button = document.getElementById('btn');
+        const handler = () => console.log('Event fired');
+
+        button.addEventListener('click', handler, false);
+      </code>
+    </pre>
+      <p class="hint">
+        The third parameter is the useCapture property, if it is true, the handler is set on the capture phase, if it is false, it is set on the bubbling phase.
+      </p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Bubbling</h3>
+    <pre>
+      <code class="language-javascript">
+        &lt;div onclick=&quot;alert('This event will also fire')&quot;&gt;
+          &lt;button onclick=&quot;alert('This event will fire')&quot;&gt;Text&lt;/button&gt;
+        &lt;/div&gt;
+      </code>
+    </pre>
+    <p class="hint">
+      Most events bubble, but not all of them. Events like focus and blur do not bubble.
+    </p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Bubbling</h3>
+    <pre>
+      <code class="language-javascript">
+        &lt;div onclick=&quot;alert('This event will not fire')&quot;&gt;
+          &lt;button onclick=&quot;event.stopPropagation()&quot;&gt;Text&lt;/button&gt;
+        &lt;/div&gt;
+      </code>
+    </pre>
+    <p class="hint">
+      event.stopPropagation() stops the move upwards, but if the target has more than one handler, all the other handlers will run as well.
+      To stop the bubbling and prevent handlers on the current element from running, call event.stopImmediatePropagation().
+    </p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Default behaviour</h3>
+    <pre>
+      <code class="language-javascript">
+        &lt;a id=&quot;link&quot; href=&quot;/another/page&quot;&gt;Go to another page&lt;/a&gt;
+
+        &lt;script&gt;
+          const link = document.getElementById('link');
+
+          link.onclick = () =&gt; {
+            console.log('Default prevented!');
+
+            return false;
+          };
+
+          link.addEventListener('click', (event) =&gt; {
+            event.preventDefault();
+
+            console.log('Default prevented!');
+          });
+        &lt;/script&gt;
+      </code>
+    </pre>
+    <p class="hint">
+      Even though we can make any HTML element behave differently by preventing it's default behaviour, we should generally keep the semantic meaning of HTML elements.
+    </p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Event Listeners</h2>
+    <h3 class="slide-subtitle">Event Delegation</h3>
+    <pre>
+      <code class="language-javascript">
+        &lt;div id="wrap"&gt;
+          &lt;span&gt;Element 1&lt;/span&gt;
+          &lt;span&gt;Element 2&lt;/span&gt;
+          &lt;span&gt;Element 3&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;script&gt;
+          const wrap = document.getElementById('wrap');
+
+          wrap.addEventListener('click', () =&gt; {
+            const target = event.target;
+
+            console.log(target.innerText);
+          })
+        &lt;/script&gt;
+      </code>
+    </pre>
+    <p class="hint">
+      When assigning event handlers to the document object, we should always use addEventListener, not DOM event methods, because the latter will cause conflicts when overwriting old ones.
+    </p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Events</h2>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/Events">MDN Event Reference</a>
+    <p class="hint">
+      There's a whole lot of events available in a browser, not only for user interactions but also for file import and loads, animations, media events, messaging and notifications, etc.
+    </p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <pre>
+      <code class="language-javascript">
+        const event = new Event(type[, options]);
+      </code>
+    </pre>
+    <div class="hint">
+      <p>Options are: </p>
+      <p>bubbles: true/false – if true, then the event bubbles.</p>
+      <p>cancelable: true/false – if true, then the “default action” may be prevented.</p>
+      Both are false by default.
+    </div>
+  </section>
+  
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <h3 class="slide-subtitle">Dispatch</h3>
+    <pre>
+      <code class="language-javascript">
+        const element = document.getElementById('btn');
+        const event = new Event('custom');
+
+        element.dispatchEvent(event);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <h3 class="slide-subtitle">Bubbling</h3>
+    <pre>
+      <code class="language-javascript">
+        document.addEventListener('custom', function(event) {
+          console.log('Custom event bubbled!'); 
+        });
+      
+        let event = new Event('custom', { bubbles: true }); 
+        element.dispatchEvent(event);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <h3 class="slide-subtitle">UI Event Constructors</h3>
+    <pre>
+      <code class="language-javascript">
+        const event = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          clientX: 100,
+          clientY: 100
+        });
+        
+        element.dispatchEvent(event);
+      </code>
+    </pre>
+    <div class="hint">
+      Use custom UI Events instead of CustomEvents when simulating browser events like mouse or keyboard events.
+    </div>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <h3 class="slide-subtitle">Custom Events</h3>
+    <pre>
+      <code class="language-javascript">
+        elem.addEventListener('custom', function(event) {
+          alert(event.detail.name);
+        });
+      
+        elem.dispatchEvent(new CustomEvent('custom', {
+          detail: { name: 'Irene' }
+        }));
+      </code>
+    </pre>
+    <div class="hint">
+      Using CustomEvent instead of a regular Event helps avoid conflicts with property names and it is more clear of what the event is.
+    </div>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <h3 class="slide-subtitle">Synchronous and Asynchronous Events</h3>
+    <pre>
+      <code class="language-javascript">
+        button.onclick = function() {
+          console.log('Start of click event');
+      
+          button.dispatchEvent(new CustomEvent('custom', {
+            bubbles: true
+          }));
+      
+          console.log('End of click event');
+        };
+      
+        document.addEventListener('custom', () => console.log('Custom event fired'));
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Event Constructor</h2>
+    <h3 class="slide-subtitle">Synchronous and Asynchronous Events</h3>
+    <pre>
+      <code class="language-javascript">
+        button.onclick = function() {
+          console.log('Start of click event');
+      
+          setTimeout(() => button.dispatchEvent(new CustomEvent('custom', {
+            bubbles: true
+          })));
+      
+          console.log('End of click event');
+        };
+      
+        document.addEventListener('custom', () => console.log('Custom event fired'));
+      </code>
+    </pre>
+  </section>
+  
+
+  <section class="bg-green">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
