@@ -5,9 +5,6 @@ html, body {
 
 .slide-title {
   font-size: 48px;
-  /* position: absolute;
-  top: 0;
-  left: 50px; */
 }
 
 .slide-subtitle {
@@ -24,7 +21,8 @@ html, body {
 }
 
 .bg-blue { background-color: rgba(73, 158, 191, 1); }
-.bg-cyan { background-color: rgba(120, 210, 235, 1); }
+.bg-cyan { background-color: rgba(100, 190, 215, 1); }
+.bg-green { background-color: rgba(100, 190, 115, 1); }
 .bg-yellow { background-color: rgba(242, 200, 121, 1); }
 .bg-orange { background-color: rgba(225, 150, 120, 1); }
 .bg-red { background-color: rgba(242, 129, 119, 1); }
@@ -39,4 +37,8 @@ html, body {
 
 .bg-orange .hint {
   background-color: rgba(100, 190, 235, 1);
+}
+
+.bg-green .hint {
+  background-color: rgba(73, 158, 191, 1);
 }
