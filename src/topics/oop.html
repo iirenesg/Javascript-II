@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-green">
+    <h1>Object Oriented Programming</h1>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">Object literal</h3>
+    <pre>
+      <code class="language-javascript">
+        const person = {
+          name: 'Irene',
+          age: 27,
+          interests: ['drawing', 'coding'],
+          greeting: () => {
+            alert(`Hi! I'm ${this.name}.`);
+          }
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">Prototypes</h3>
+    <pre>
+      <code class="language-javascript">
+        function Person(name, age) {
+          let person = Object.create(personPrototype);
+          person.name = name;
+          person.age = age;
+          return person;
+        }
+        const personPrototype = {
+          sayHi: () => {
+            alert('Hi!');
+          }
+        };
+        const personInstance = Person('Irene', 27);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">Prototype chaining</h3>
+    <pre>
+      <code class="language-javascript">
+        personPrototype.isPrototypeOf(personInstance); // true
+        
+        Object.prototype.isPrototypeOf(personPrototype); // true
+        
+        Object.prototype.isPrototypeOf(personInstance); // true
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">The new keyword</h3>
+    <pre>
+      <code class="language-javascript">
+        function Person(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+        Person.prototype.sayHi = () => {
+          alert('Hi!');
+        }
+        const personInstance = new Person('Irene', 27);
+      </code>
+    </pre>
+    <p class="hint">The new keyword syntax is more widely used and accepted, so it's preferred over Object.create().</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Classes</h2>
+    <pre>
+      <code class="language-javascript">
+        class Animal {
+          constructor(name, specie) {
+              this.name = name;
+              this.specie = specie;
+          }
+          walk() {
+            return `${this.name} is walking.`;
+          }
+          jump() {
+            return `${this.name} is jumping.`;
+          }
+        }
+        const tomillo = new Animal('Tomillo', 'Cat');
+      </code>
+    </pre>
+    <p class="hint">This is syntatic sugar, since javascript is still using its prototypes underneath it.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Classes</h2>
+    <h3 class="slide-subtitle">Inheritance</h3>
+    <pre>
+      <code class="language-javascript">
+        class Animal {
+          constructor(name, age, specie) {
+              this.name = name;
+              this.age = age;
+              this.specie = specie;
+          }
+          walk() {
+            return `${this.name} is walking.`;
+          }
+        }
+
+        class Cat extends Animal {
+          constructor(name, age, color) {
+            super(name, age, 'cat');
+            this.color = color;
+          }
+          sleep() {
+            return `${this.name} is sleeping.`;
+          }
+        }
+        const tomillo = new Cat('Tomillo', 3, 'yellow');
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

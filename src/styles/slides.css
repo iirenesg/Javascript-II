@@ -29,6 +29,14 @@ canvas {
   margin-top: 30px;
 }
 
+.list-block {
+  max-width: 800px;
+}
+
+.list-block li {
+  font-size: 20px;
+}
+
 .bg-blue { background-color: rgba(73, 158, 191, 1); }
 .bg-cyan { background-color: rgba(100, 190, 215, 1); }
 .bg-green { background-color: rgba(100, 190, 115, 1); }
