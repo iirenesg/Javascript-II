@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-cyan">
+    <h1>Module Pattern</h1>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Benefits of the module pattern</h2>
+    <ul class="build-items list-block">
+      <li>Maintainability: A well-designed module aims to lessen the dependencies on parts of the codebase as much as possible, so that it can grow and improve independently. Updating a single module is much easier when the module is decoupled from other pieces of code.</li>
+      <li>Namespacing: Variables outside the scope of a function are global, this causes “namespace pollution”, where completely unrelated code shares global variables.</li>
+      <li>Reusability: By definition, a module is self-contained, and it facilitates reusability accross other modules or projects.</li>
+    </ul>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Modules</h2>
+    <h3 class="slide-subtitle">IIFE</h3>
+    <pre>
+      <code class="language-javascript">
+        (function (globalVariable) {
+          globalVariable.name = 'Irene';
+
+          globalVariable.sayHello = () => {
+            alert('Hello!');
+          };
+          globalVariable.getName = () => {
+            return globalVariable.name;
+          };
+        }(globalVariable));
+
+        globalVariable.sayHello();
+        globalVariable.getName();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Modules</h2>
+    <h3 class="slide-subtitle">Object interface</h3>
+    <pre>
+      <code class="language-javascript">
+        const module = (function () {
+          const name = 'Irene';
+
+          return {
+            sayHello() {
+              alert('Hello!');
+            },
+
+            getName() {
+              return name;
+            },
+          }
+        })();
+
+        module.sayHello();
+        module.getName();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Modules</h2>
+    <h3 class="slide-subtitle">Object interface</h3>
+    <pre>
+      <code class="language-javascript">
+        const module = (function () {
+          const name = 'Irene';
+
+          const sayHello = () => {
+            alert('Hello!');
+          };
+
+          const getName = () => {
+            return name;
+          };
+
+          return {
+            sayHello,
+            getName
+          }
+        })();
+
+        module.sayHello();
+        module.getName();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Modules</h2>
+    <h3 class="slide-subtitle">CommonJs</h3>
+    <pre>
+      <code class="language-javascript">
+        function module() {
+          this.name = 'Irene';
+
+          this.sayHello = () => {
+            alert('Hello!');
+          }
+        
+          this.getName = () => {
+            return this.name;
+          }
+        }
+        
+        module.exports = module;
+
+        // In another file
+        const module = require('module');
+        const moduleInstance = new module();
+
+        moduleInstance.sayHello();
+        moduleInstance.getName();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Javascript ES6 modules</h2>
+    <pre>
+      <code class="language-javascript">
+        <script type="module" src="./my-module.js"></script>
+
+        // In my-module.js
+        const name = 'Irene';
+
+        const sayHello = () => {
+          alert('Hello!');
+        };
+
+        const getName = () => {
+          return name;
+        };
+
+        export { sayHello, getName }
+
+        // In another file
+        import { sayHello, getName } from './my-module.js';
+
+        sayHello();
+        getName();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Javascript ES6 modules</h2>
+    <h3 class="slide-subtitle">Default exports</h3>
+    <pre>
+      <code class="language-javascript">
+        // In my-module.js
+        const name = 'Irene';
+
+        const sayHello = () => {
+          alert(`Hello ${name}`);
+        };
+
+        export default sayHello;
+
+        // In another file
+        import sayHello from './my-module.js';
+
+        sayHello();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Javascript ES6 modules</h2>
+    <h3 class="slide-subtitle">Default exports</h3>
+    <pre>
+      <code class="language-javascript">
+        // In my-module.js
+        const name = 'Irene';
+
+        const sayHello = () => {
+          alert(`Hello ${name}`);
+        };
+
+        const sayHi = () => {
+          alert(`Hi ${name}`);
+        };
+
+        export default sayHello;
+        export { sayHi };
+
+        // In another file
+        import sayHello, { sayHi } from './my-module.js';
+
+        sayHello();
+        sayHi();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Javascript ES6 modules</h2>
+    <h3 class="slide-subtitle">Default exports</h3>
+    <pre>
+      <code class="language-javascript">
+        // In my-module.js
+        const sayHello = () => {
+          alert('Hello!');
+        };
+
+        export default sayHello;
+
+        // In another file
+        import greet from './my-module.js';
+
+        greet();
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
