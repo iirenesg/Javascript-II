@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Factory Pattern</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Factory</h2>
+    <h3 class="slide-subtitle">Class definition</h3>
+    <pre>
+      <code class="language-javascript">
+        class TaskFactory {
+          constructor() {
+            this.createTask = (type) => {
+              let task;
+
+              if (type === 'shopping') {
+                task = new ShoppingTask();
+              } else if (type === 'chores') {
+                task = new ChoresTask();
+              }
+
+              task.completeTask = () => { /* Code here */ }
+
+              return task;
+            }
+          }
+        };
+
+        class ShoppingTask {
+          // Code here
+        };
+
+        class ChoresTask {
+          // Code here
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Factory</h2>
+    <h3 class="slide-subtitle">Class definition</h3>
+    <pre>
+      <code class="language-javascript">
+        class TaskFactory {
+          constructor() {
+            this.createTask = (type) => {
+              let task;
+
+              if (type === 'shopping') {
+                task = new ShoppingTask();
+              } else if (type === 'chores') {
+                task = new ChoresTask();
+              }
+
+              return task;
+            }
+          }
+        };
+
+        class Task {
+            constructor() {
+                this.completed = false;
+                // Properties
+            }
+
+            completeTask() {
+                this.completed = true;
+            }
+        }
+
+        class ShoppingTask extend Task {
+          // Code here
+        };
+
+        class ChoresTask extend Task {
+          // Code here
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Factory</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        import TaskFactory from './TaskFactory.js'
+        const factory = new TaskFactory();
+
+        const shoppingTask = factory.createTask('shopping');
+        const choresTask = factory.createTask('chores');
+
+        shoppingTask.completeTask();
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

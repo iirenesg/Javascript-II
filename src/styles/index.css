@@ -32,6 +32,11 @@
   font-weight: bold;
 }
 
+.separator {
+	padding-bottom: 20px;
+  border-bottom: 1px solid black;
+}
+
 /* Effect 21: borders slight translate */
 .nav-links a {
 	padding: 10px;
