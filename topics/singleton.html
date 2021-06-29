@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-orange">
+    <h1>Singleton Pattern</h1>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Singleton</h2>
+    <h3 class="slide-subtitle">Class declaration</h3>
+    <pre>
+      <code class="language-javascript">
+        // This is the regular class
+        class State {
+          constructor() {
+            this.orders = [];
+            this.user = {};
+          }
+
+          addOrder(order) {
+            this.orders.push(order)
+          }
+        }
+
+        // This is the singleton
+        class StateSingleton {
+          constructor() {
+            if (!StateSingleton.instance) {
+              StateSingleton.instance = new State();
+            }
+          }
+
+          getStateSingleton() {
+            return StateSingleton.instance
+          }
+        }
+
+        export default StateSingleton;
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Singleton</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        // In one file
+        import State from './State.js';
+        const state = new State().getStateSingleton();
+
+        const renderOrders = (orders) => {
+          // Some code here
+        };
+
+        renderOrders(state.orders);
+
+        // In another file
+        import State from './State.js';
+        const state = new State().getStateSingleton();
+
+        const handleOrder = (event) => {
+          state.addOrder(event.target.value);
+        };
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
