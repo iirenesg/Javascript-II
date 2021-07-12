@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-orange">
+    <h1>Decorator Pattern</h1>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Decorator</h2>
+    <h3 class="slide-subtitle">Class definition</h3>
+    <pre>
+      <code class="language-javascript">
+        class List {
+          constructor(name, songs) {
+            this.name = name;
+            this.songs = songs;
+          }
+        }
+        
+        class Favorites {
+          constructor(baseList) {
+            this.name = 'Favorites';
+            this.songs = baseList.songs;
+          }
+
+          removeSong(song) {
+            console.log(`Removing this song: ${song}`);
+          }
+        }
+        
+        class Playlist {
+          constructor(baseList) {
+            this.name = baseList.name;
+            this.songs = baseList.songs;
+          }
+          
+          remove() {
+            console.log('Removing playlist');
+          }
+        }
+
+        export default List;
+        export { Favorites, Playlist };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Decorator</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        import List, { Favorites, Playlist } from './List.js';
+
+        const list = new List('Custom List', [...]);
+        const favs = new List('', [...]);
+
+        const playlist = new Playlist(list);
+        const favorites = new Favorites(favs);
+        
+        playlist.remove();
+        favorites.removeSong({...});
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
