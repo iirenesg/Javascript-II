@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-cyan">
+    <h1>Façade Pattern</h1>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Façade</h2>
+    <h3 class="slide-subtitle">Class definition</h3>
+    <pre>
+      <code class="language-javascript">
+        class ContentFacade {
+          constructor(type) {
+            this.type = type;
+            this.movieRegistry = new MovieRegistry();
+            this.songRegistry = new SongRegistry();
+            this.bookRegistry = new BookRegistry();
+          }
+        
+          get(id) {
+            switch (this.type) {
+              case 'songs': {
+                return this.songRegistry.get(id);
+              }
+        
+              case 'movies': {
+                return this.movieRegistry.get(id);
+              }
+        
+              case 'books': {
+                return this.bookRegistry.get(id);
+              }
+        
+              default: {
+                throw new Error('Type not found');
+              }
+            }
+          }
+        }
+
+        class BookRegistry {
+          constructor(registry) {
+            this.registry = registry;
+          }
+
+          get(id) {
+            return registry.find(book => id === book.id);
+          }
+        }
+
+        class MovieRegistry {
+          constructor(registry) {
+            this.registry = registry;
+          }
+
+          get(name) {
+            return registry.find(book => name === book.name);
+          }
+        }
+
+        class SongRegistry {
+          constructor(registry) {
+            this.registry = registry;
+          }
+
+          get(name) {
+            return registry.find(book => name === book.name);
+          }
+        }
+
+        export default ContentFacade;
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Façade</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        import ContentFacade from './ContentFacade.js';
+
+        const bookLibrary = new ContentFacade('books');
+        const movieLibrary = new ContentFacade('movies');
+
+        bookLibrary.get('1984');
+        movieLibrary.get('Fight Club');
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
