@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-green">
+    <h1>Observer Pattern</h1>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Observer</h2>
+    <h3 class="slide-subtitle">Class definition</h3>
+    <pre>
+      <code class="language-javascript">
+        class EventManager {
+          constructor() {
+            this.subscribers = [];
+          }
+          
+          subscribe(observer) {
+            this.subscribers.push(observer);
+          }
+          
+          onChange(data) {
+            this.subscribers.forEach(observer => observer.update(data));
+          }
+        }
+
+        class Observer {
+          update(data) {
+            // Do something with the new data
+          }
+        }
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Observer</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        import EventManager from './EventManager.js';
+        import Observer from './Observer.js';
+
+        const eventManager = new EventManager();
+
+        const observer1 = new Observer();
+        const observer2 = new Observer();
+
+        eventManager.subscribe(observer1);
+        eventManager.subscribe(observer2);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Observer</h2>
+    <h3 class="slide-subtitle">Class definition</h3>
+    <pre>
+      <code class="language-javascript">
+        class EventManager {
+          constructor() {
+            this.event = 'song.play';
+          }
+          
+          subscribe(callback) {
+            document.addEventListener(this.event, callback);
+          }
+          
+          fireEvent(song) {
+            document.dispatchEvent(new CustomEvent(this.event, { detail: song }));
+          }
+        }
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Observer</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        import EventManager from './EventManager.js';
+
+        const eventManager = new EventManager();
+
+        const observer = (song) => {
+          // Do something with the song
+        };
+
+        eventManager.subscribe(observer);
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

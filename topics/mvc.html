@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Model - View - Controller</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">MVC</h2>
+    <h3 class="slide-subtitle">Class definition (Controller)</h3>
+    <pre>
+      <code class="language-javascript">
+        class Controller {
+          constructor(model, view) {
+            this.model = model;
+            this.view = view;
+
+            this.init();
+          }
+
+          init() {
+            this.model.getSongs();
+
+            for(let song of this.model.songs) {
+              this.view.render(song);
+            }
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">The Controller handles events and is the mediator between the view and model.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">MVC</h2>
+    <h3 class="slide-subtitle">Class definition (View)</h3>
+    <pre>
+      <code class="language-javascript">
+        class View {
+          constructor() {
+            this.container = document.getElementById('wrapper');
+          }
+        
+          createElement(tag, className) {
+            const element = document.createElement(tag);
+            if (className) element.classList.add(className);
+        
+            return element
+          }
+        
+          render(newElement) {
+            const element = createElement('div', 'song-item');
+            element.innerText = `Artist: ${newElement.artist}`;
+
+            this.container.appendChild(element);
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">The View manipulates de DOM. It can attach user events but leaves event handling concerns to the controller.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">MVC</h2>
+    <h3 class="slide-subtitle">Class definition (Model)</h3>
+    <pre>
+      <code class="language-javascript">
+        import songService from './songService';
+
+        class Model {
+            constructor() {
+              this.songs = [];
+            }
+
+            addSong(song) {
+              // Add song to songs array
+            }
+          
+            deleteSong(song) {
+              // Delete song from songs array
+            }
+
+            getSongs() {
+              // Makes request and returns data
+              this.songs = songService.getSongs();
+            }
+          }
+      </code>
+    </pre>
+    <p class="hint">The Model cares about data. It handles the state, data requests and data formatting.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">MVC</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        import Controller from './Controller.js';
+        import Model from './Model.js';
+        import View from './View.js';
+        
+        const app = new Controller(new Model(), new View());
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
