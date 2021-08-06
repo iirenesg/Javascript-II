@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-cyan">
+    <h1>WebSockets</h1>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Requesting a connection</h3>
+    <pre>
+      <code class="language-javascript">
+        // Create a new WebSocket with an encrypted connection.
+        var socket = new WebSocket('ws://domain.example.com');
+      </code>
+    </pre>
+    <p class="hint">WebSocket URLs use the ws scheme. There is also wss for secure WebSocket connections which is the equivalent of HTTPS.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Node.js server</h3>
+    <pre>
+      <code class="language-javascript">
+        var WebSocketServer = require('websocket').server;
+
+        wsServer = new WebSocketServer({
+            httpServer: server
+        });
+
+        wsServer.on('request', function(request) {
+            var connection = request.accept(null, request.origin);
+
+            // Receiving a message from the client
+            connection.on('message', function(message) {
+                // Process WebSocket message
+            });
+
+            connection.on('close', function(connection) {
+                // Connection closes
+            });
+        });
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Connection opens</h3>
+    <pre>
+      <code class="language-javascript">
+        socket.onopen = function(event) {
+            console.log('WebSocket is connected.');
+        };
+      </code>
+    </pre>
+    <p class="hint">When the handshake is complete, the initial HTTP connection is replaced by a WebSocket connection that uses the same underlying TCP/IP connection.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Sending data</h3>
+    <pre>
+      <code class="language-javascript">
+        socket.onopen = function(event) {
+            socket.send('Some message'); // Sends data to server
+        };
+      </code>
+    </pre>
+    <p class="hint">Data is transferred through a WebSocket as messages, each of which consists of one or more frames containing the data you are sending (the payload).</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Receiving data</h3>
+    <pre>
+      <code class="language-javascript">
+        socket.onmessage = function(event) {
+            var message = event.data; // This is the data receiverd from the server
+        };
+      </code>
+    </pre>
+    <p class="hint">At any point after the handshake, either the client or the server can choose to send a ping to the other party. When the ping is received, the recipient must send back a pong as soon as possible. That’s a heartbeat. You can use it to make sure that the client is still connected.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Handling errors</h3>
+    <pre>
+      <code class="language-javascript">
+        socket.onerror = function(error) {
+            console.log('WebSocket Error: ' + error);
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">WebSockets</h2>
+    <h3 class="slide-subtitle">Closing the connection</h3>
+    <pre>
+      <code class="language-javascript">
+        // Initiate the connection close
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.close();
+        }
+
+        // Clean up after server closes the connection
+        socket.onclose = function(event) {
+            console.log('Disconnected from WebSocket.');
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
