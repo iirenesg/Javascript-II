@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Javascript IV</title>
+  <title>Javascript II</title>
   <link rel="stylesheet" type="text/css" href="../build/build.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
@@ -16,6 +16,20 @@
   </section>
 
   <section class="bg-yellow">
+    <h2 class="slide-title">Functions</h2>
+    <pre>
+      <code class="language-javascript">
+        function nameOfTheFunction(input) {
+          const output = input * 10;
+
+          return output;
+        }
+      </code>
+    </pre>
+    <p class="hint">A function is a collection of statements that can be invoked one or more times, may be provided some inputs, and may give back an output.</p>
+  </section>
+
+  <section class="bg-yellow">
     <h2 class="slide-title">Function declarations</h2>
     <pre>
       <code class="language-javascript">
@@ -23,17 +37,26 @@
           return `Hi, ${name}!`;
         }
 
-        console.log(sayHi('Cetav')); 
+        sayHi('Cetav'); 
         // 'Hi, Cetav!'
+      </code>
+    </pre>
+    <p class="hint">A function declaration is a statement by itself.<br>The association between the identifier <i>sayHi</i> and the function value happens during compilation, before the code is executed.</p>
+  </section>
 
+  <section class="bg-yellow">
+    <h2 class="slide-title">Function expression</h2>
+    <pre>
+      <code class="language-javascript">
         const sayHello = function(name) {
           return `Hello, ${name}!`;
         }
 
-        console.log(sayHello('Cetav')); 
+        sayHello('Cetav'); 
         // 'Hello, Cetav!'
       </code>
     </pre>
+    <p class="hint">The function is an expression that is assigned to the variable <i>sayHello</i>.<br>Different from the function declaration form, a function expression is not associated with its identifier until runtime.</p>
   </section>
 
   <section class="bg-yellow">
@@ -56,21 +79,43 @@
   </section>
 
   <section class="bg-yellow">
+    <h2 class="slide-title">Functions as values</h2>
+    <pre>
+      <code class="language-javascript">
+        const saySomething = {
+          name: 'John',
+          greeting() {
+            return `Hello! My name is ${this.name}.`;
+          },
+          goodbye() {
+            return 'Bye bye!';
+          },
+        };
+      
+        saySomething.greeting();
+        // Hello! My name is John.
+      </code>
+    </pre>
+    <p class="hint">In Javascript, functions are values (the same as strings, numbers, objects and arrays). Because of that, they can be assigned as properties on objects.<br>What's saved in the object is a reference to the function stored in memory.</p>
+  </section>
+
+  <section class="bg-yellow">
     <h2 class="slide-title">Named and anonymous functions</h2>
     <pre>
       <code class="language-javascript">
         function named() {
-          console.log('This function has a name');
+          return "This function has a name!";
         }
 
         function() {
-          console.log('This function does not have a name');
+          return "This function does not have a name and can't be invoked.";
         }
 
         named();
-        // 'This function has a name'
+        // "This function has a name!"
       </code>
     </pre>
+    <p class="hint">Anonymous function declarations can't be invoked, so they're used mostly for callback functions.</p>
   </section>
 
   <section class="bg-yellow">
@@ -81,13 +126,14 @@
           callback();
         }
 
-        callAnotherFunction(function() { console.log('I am a callback'); });
+        callAnotherFunction(function() { return 'I am a callback'; });
         // 'I am a callback'
 
-        callAnotherFunction(() => { console.log('I am another callback'); });
+        callAnotherFunction(() => 'I am another callback');
         // 'I am another callback'
       </code>
     </pre>
+    <p class="hint">Callbacks are used a lot in javascript programming.<br>One notable example is in DOM events like <i>click</i>, a function is passed as a parameter to the eventListener and called when the event happens.</p>
   </section>
 
   <section class="bg-yellow">
@@ -97,50 +143,41 @@
       <code class="language-javascript">
         (function () {
           var message = 'I am an IIFE';
-          console.log(message);
+
+          return message;
         })();
         // 'I am an IIFE'
 
         console.log(message); // Uncaught ReferenceError: message is not defined
       </code>
     </pre>
-    <p class="hint">IIFEs help prevent polluting the global namespace, since variables declared inside the function are local.</p>
+    <p class="hint">IIFEs help prevent polluting the global namespace, since variables declared inside the function are in a local scope.</p>
   </section>
 
-  <section class="bg-yellow">
-    <h2 class="slide-title">The <i>this</i></h2>
+  <section class="bg-cyan">
+    <h2 class="slide-title">Scope</h2>
     <pre>
       <code class="language-javascript">
-        function global() {
-          console.log(this);        
+        {
+          var varInBlockScope = "I can be accessed outside a block scope";
+          let letInBlockScope = "I can't be accessed outside a block scope";
         }
-        global() // window
 
-        var local = {
-          localMethod: function() {
-            console.log(this);
-          }
-        };
+        console.log(varInBlockScope);
+        // "I can be accessed outside a block scope"
 
-        local.localMethod() // local object
+        console.log(letInBlockScope);
+        // Uncaught ReferenceError: letInBlockScope is not defined
+
+        function newScope() {
+          var varInFunctionScope = "Var variables can't be accessed outside their function scope";
+        }
+
+        newScope();
+        // Uncaught ReferenceError: varInFunctionScope is not defined
       </code>
     </pre>
-  </section>
-
-  <section class="bg-yellow">
-    <h2 class="slide-title">The <i>this</i></h2>
-    <pre>
-      <code class="language-javascript">
-        var local = {
-          name: 'Irene',
-          getName: function() {
-            return this.name;
-          }
-        };
-
-        console.log(local.getName()); // Irene
-      </code>
-    </pre>
+    <p class="hint">The scope is the context in which the code is running. Javascript has lexical scope which means that functions and blocks create new contexts that determine what variables can be accessed in a given scope.</p>
   </section>
 
   <section class="bg-cyan">
@@ -148,20 +185,23 @@
     <h3 class="slide-subtitle">Global scope</h3>
     <pre>
       <code class="language-javascript">
-        const message = 'Hello, Cetav!';
+        var message = 'Hello, Cetav!';
 
         function sayHello () {
           return message;
         }
 
-        console.log(sayHello()); 
+        sayHello(); 
         // 'Hello, Cetav!'
 
         console.log(message); 
         // 'Hello, Cetav!'
+
+        console.log(window.message);
+        // 'Hello, Cetav!'
       </code>
     </pre>
-    <p class="hint">It's not a good practice to declare variables in the global scope. This is because there is a chance of naming collisions, where two or more variables are named the same.</p>
+    <p class="hint">The global scope in browsers is the <i>window</i> object. Any variable or function declared in the global scope can be accesed anywhere in your code, including other functions or blocks.<br>It's not a good practice to declare variables in the global scope; this is because there is a chance of naming collisions, where two or more variables are named the same.</p>
   </section>
 
   <section class="bg-cyan">
@@ -170,17 +210,83 @@
     <pre>
       <code class="language-javascript">
         function sayHello () {
-          const message = 'Hello, Cetav!';
+          var message = 'Hello, Cetav!';
+
           return message;
         }
         
-        console.log(sayHello()); 
+        sayHello(); 
         // 'Hello, Cetav!'
 
         console.log(message); 
         // Uncaught ReferenceError: message is not defined
       </code>
     </pre>
+    <p class="hint">Functions create a new scope and variables declared inside a function can't be accessed outside of it. This includes <i>var</i>, <i>let</i> and <i>const</i> variables.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">The <i>this</i> inside a function</h2>
+    <pre>
+      <code class="language-javascript">
+        function global() {
+          return this;        
+        }
+        global();
+        // window object reference
+
+        const local = {
+          localMethod: function() {
+            return this;      
+          }
+        };
+
+        local.localMethod();
+        // local object reference
+      </code>
+    </pre>
+    <p class="hint">The <i>this</i> inside a function returns the object in which it is scoped. In browsers, the this inside a global function will return the window object, but if it is inside another context, the this will return its context object.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Contextual <i>this</i></h2>
+    <pre>
+      <code class="language-javascript">
+        var local = {
+          name: 'John',
+          getName: function() {
+            return this.name;
+          }
+        };
+
+        local.getName();
+        // 'John'
+      </code>
+    </pre>
+    <p class="hint">Since the <i>this</i> is a reference to the context object, it can access other properties or methods defined in that object.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">The <i>this</i> inside an arrow function</h2>
+    <pre>
+      <code class="language-javascript">
+        const contextObject = {
+          methodFn() {
+            return this;
+          },
+          methodWithArrowFn: () => {
+            return this;
+          }
+        };
+
+        contextObject.methodFn();
+        // local object reference
+
+        contextObject.methodWithArrowFn();
+        // window object reference
+      </code>
+    </pre>
+    <p class="hint">Arrow functions inherit the surrounding scope. This means the <i>this</i> won't be a reference to the context object, but the surrounding window object in which the context object was created.</p>
   </section>
 
   <section class="bg-cyan">
@@ -188,61 +294,97 @@
     <h3 class="slide-subtitle">Hoisting</h3>
     <pre>
       <code class="language-javascript">
-        sayHello(); // 'Hello, Cetav!'
+        sayHello();
+        // 'Hello, Cetav!'
+
         function sayHello () {
-          console.log('Hello, Cetav!');
+          return 'Hello, Cetav!';
         }
 
-        sayHi() // Uncaught ReferenceError: sayHi is not defined
+        sayHi();
+        // Uncaught ReferenceError: sayHi is not defined
+
         const sayHi = function () {
-          console.log('Hi, Cetav!')
+          return 'Hi, Cetav!';
         }
       </code>
     </pre>
-    <p class="hint">Because of these two variations, function hoisting can be confusing, and it's not a good practice. Always declare your functions before you use them.</p>
+    <p class="hint">When a function declaration is read during compilation, it is raised or "hoisted" to the top of the scope, which means it can be accessed in the code even before it is declared.<br>This doesn't happen with function expressions, and because of these two variations, function hoisting can be confusing, and it's not a good practice. Always declare your functions before you use them.</p>
   </section>
 
-  <section class="bg-orange">
+  <section class="bg-green">
     <h2 class="slide-title">Closures</h2>
     <h3 class="slide-subtitle">Nested Scope</h3>
     <pre>
       <code class="language-javascript">
-        function outerFunction () {
-          const outer = `I'm the outer function!`;
+        function outerFunction (name) {
+          const outerVariable = "a variable in the outer scope";
         
-          function innerFunction() {
-            const inner = `I'm the inner function!`;
-            console.log(outer); // I'm the outer function!
+          function innerFunction(name) {
+            return `This inner function can access ${outerVariable}`;
           }
-        
-          console.log(inner); // Uncaught ReferenceError: inner is not defined
+
+          innerFunction();
         }
+
+        outerFunction();
+        // This inner function can access a variable in the outer scope
       </code>
     </pre>
+    <p class="hint">Closure is when a function declared inside another function can continue to access variables from the outer function, even when the inner function is executed in a different scope.</p>
   </section>
 
-  <section class="bg-orange">
+  <section class="bg-green">
     <h2 class="slide-title">Closures</h2>
-    <h3 class="slide-subtitle">Higher Order Functions</h3>
+    <h3 class="slide-subtitle">Higher order functions</h3>
     <pre>
       <code class="language-javascript">
-        function makeAdder(x) {
-          return function(y) {
-            return x + y;
-          };
+        function outerFunction () {
+          const outerVariable = "I'm in the outer function!";
+        
+          return function innerFunction(name) {
+            const message = `Hello ${name}! ${outerVariable}`;
+
+            return message;
+          }
         }
-        
-        var add5 = makeAdder(5);
-        var add10 = makeAdder(10);
-        
-        console.log(add5(2));  // 7
-        console.log(add10(2)); // 12
+
+        const innerFn = outerFunction();
+
+        innerFn('Cetav');
+        // Hello Cetav! I'm in the outer function!
       </code>
     </pre>
-    <p class="hint">Both add5 and add10 are closures. They provide different lexical environments within the same function.</p>
+    <p class="hint">When a function returns another function it is called a higher order function. The function returned will have a closure over the outer function and it's variables.</p>
   </section>
 
-  <section class="bg-orange">
+  <section class="bg-green">
+    <h2 class="slide-title">Closures</h2>
+    <pre>
+      <code class="language-javascript">
+        function counter() {
+          var count = 0;
+          return function increaseCount(){
+              count = count + 1;
+              return count;
+          };
+        }
+
+        const counter1 = counter();
+        const counter2 = counter();
+
+        counter1();
+        // 1
+        counter1();
+        // 2
+        counter2();
+        // 1
+      </code>
+    </pre>
+    <p class="hint">A function in a closure has direct access to the variables in the outer scope, so it can update the values.<br>If more functions have a closure over the same function, the reference to the outer function variables won't be the same, so an update in one will not be visible in the other.</p>
+  </section>
+
+  <section class="bg-green">
     <h2 class="slide-title">Thanks</h2>
   </section>
 </article>
