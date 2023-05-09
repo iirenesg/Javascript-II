@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOM</title>
+  <link rel="stylesheet" href="../build/dom-styles.css">
+</head>
+<body>
+  <div class="btn-wrap">
+    <button id="prev" class="button">Previous</button>
+    <button id="next" class="button">Next</button>
+  </div>
+  <section class="section" id="s0">
+    <code><h1>Document Object Model (DOM)</h1></code>
+    <img src="/images/tree.webp" alt="">
+  </section>
+  <section class="section" id="s1">
+    <code><h2>Selecting nodes</h2></code>
+    <div class="col">
+      <code>
+        document.getElementById('ID');
+      </code>
+      <div id="boxId" class="box pushed">
+        <code>id: boxId</code>
+      </div>
+    </div>
+    <div class="col">
+      <code>
+        document.getElementsByClassName('CLASS');
+      </code>
+      <div class="boxClass box pushed"><code>class: boxClass</code></div>
+      <div class="boxClass box pushed"><code>class: boxClass</code></div>
+      <div class="boxClass box pushed"><code>class: boxClass</code></div>
+    </div>
+    <div class="col">
+      <code>
+        document.getElementsByTagName('TAG');
+      </code>
+      <article class="box pushed"><code>tag: article</code></article>
+      <article class="box pushed"><code>tag: article</code></article>
+      <article class="box pushed"><code>tag: article</code></article>
+    </div>
+    <div class="col">
+      <code>
+        document.querySelector('SELECTOR');
+      </code>
+      <div id="queryId" class="box pushed"><code>id: queryId</code></div>
+      <div class="queryClass box pushed"><code>class: queryClass</code></div>
+    </div>
+    <div class="col">
+      <code>
+        document.querySelectorAll('SELECTOR');
+      </code>
+      <div class="containerClass container pushed">
+        <code>class: containerClass</code>
+        <div class=" box"><code>tag: div</code></div>
+        <div class=" box pushed"><code>tag: div</code></div>
+        <div class=" box pushed"><code>tag: div</code></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="s2">
+    <code><h2>Creating nodes</h2></code>
+    <div class="col">
+      <div class="code-wrap">
+        <code>
+          document.createElement('TAG');
+        </code>
+        <code>
+          document.createTextNode('TEXT');
+        </code>
+        <code>
+          node.textContent = 'TEXT';
+        </code>
+        <code>
+          parentNode.appendChild(node);
+        </code>
+        <code>
+          parentNode.append(node);
+        </code>
+        <code>
+          parentNode.prepend(node);
+        </code>
+      </div>
+      <div class="emptyContainer container pushed-m">
+        <code>class: emptyContainer</code>
+      </div>
+    </div>
+    <div class="col">
+      <div class="code-wrap">
+        <code>
+          node.innerHTML('HTML');
+        </code>
+      </div>
+      <div class="anotherEmptyContainer container pushed-m">
+        <code>class: anotherEmptyContainer</code>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="s3">
+    <code><h2>Moving nodes</h2></code>
+    <div class="col">
+      <div class="code-wrap">
+        <code>
+          parentNode.appendChild(node);
+        </code>
+      </div>
+      <div class="box-wrap">
+        <div id="moveThisBox" class="box pushed-m"><code>id: moveThisBox</code></div>
+        <div class="anotherEmptyContainer container pushed-m">
+          <code>id: moveItHere</code>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="s4">
+    <code><h2>Removing nodes</h2></code>
+    <div class="col">
+      <code>
+        parentNode.removeChild(node);
+      </code>
+      <div id="removeFromHere" class="container vertical-center pushed-m">
+        <code>id: removeFromHere</code>
+        <div id="removeThisNode" class="box push-top">
+          <code>id: removeThisNode</code>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <code>
+        node.remove();
+      </code>
+      <div id="removeItself" class="box push-top pushed-m">
+        <code>id: removeItself</code>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="s5">
+    <code><h2>Attributes</h2></code>
+    <div class="col">
+      <code>node.hasAttribute(ATTR)</code>
+      <img class="img pushed-m" src="/images/cat.gif" />
+    </div>
+    <div class="col">
+      <code>node.getAttribute(ATTR)</code>
+      <img class="img pushed-m" src="/images/cat.gif" />
+    </div>
+    <div class="col">
+      <code>node.setAttribute(ATTR, VALUE)</code>
+      <img class="img pushed-m" src="/images/cat.gif" />
+    </div>
+    <div class="col">
+      <code>node.removeAttribute(ATTR)</code>
+      <img class="img pushed-m" src="/images/cat.gif" />
+    </div>
+  </section>
+  <section class="section" id="s6">
+    <code><h2>Other Attributes</h2></code>
+    <div class="col">
+      <button>This is a button</button>
+    </div>
+    <div class="col">
+      <input type="text" id="input1">
+    </div>
+    <div class="col">
+      <input type="checkbox" id="check1">
+      <label for="check1">This is a checkbox</label><br>
+    </div>
+  </section>
+  <section class="section" id="s7">
+    <code><h2>Classes</h2></code>
+    <div class="col">
+      <code>node.setAttribute('class', VALUE)</code>
+      <div class="container pushed-m"></div>
+    </div>
+    <div class="col">
+      <code>node.classList.add(VALUE)</code>
+      <div class="container pushed-m"></div>
+    </div>
+    <div class="col">
+      <code>node.classList.remove(VALUE)</code>
+      <div class="container pushed-m"></div>
+    </div>
+    <div class="col">
+      <code>node.classList.toggle(VALUE)</code>
+      <div class="container pushed-m"></div>
+    </div>
+    <div class="col">
+      <code>node.classList.replace(VALUE)</code>
+      <div class="container pushed-m"></div>
+    </div>
+  </section>
+  <section class="section" id="s8">
+    <code><h2>Modifying styles</h2></code>
+    <div class="col">
+      <code>node.style.color</code>
+      <div class="container pushed-m">
+        <code>Here's some content</code>
+      </div>
+    </div>
+    <div class="col">
+      <code>node.style.padding</code>
+      <div class="container pushed-m">
+        <code>Here's some content</code>
+      </div>
+    </div>
+    <div class="col">
+      <code>node.style.backgroundColor</code>
+      <div class="container pushed-m">
+        <code>Here's some content</code>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="s9">
+    <code><h2>Modifying data attributes</h2></code>
+    <div class="col">
+      <code>node.dataset.test</code>
+      <div data-test="hello hello" class="container pushed-m use-dataset"></div>
+    </div>
+    <div class="col">
+      <code>node.dataset.thisIsCamelCase</code>
+      <div data-this-is-camel-case="hello hello" class="container pushed-m use-dataset"></div>
+    </div>
+    <div class="col">
+      <code>'KEY' in node.dataset</code>
+      <div data-test="hello hello" class="container pushed-m use-dataset"></div>
+    </div>
+    <div class="col">
+      <code>delete node.dataset[KEY]</code>
+      <div data-test="hello hello" class="container pushed-m use-dataset"></div>
+    </div>
+  </section>
+  <section class="section" id="s10">
+    <code><h2>Other Element properties</h2></code>
+    <code><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/append">HTML Element Documentation</a></code>
+    <div class="col push-top">
+      <div class="code-wrap">
+        <code>
+          node.id
+        </code>
+        <code>
+          node.tagName
+        </code>
+        <code>
+          node.children
+        </code>
+        <code>
+          node.parentNode
+        </code>
+        <code>
+          node.getBoundingClientRect();
+        </code>
+        <code>
+          node.closest(SELECTOR);
+        </code>
+        <code>
+          node.contains(SELECTOR);
+        </code>
+        <code>
+          node.closest(SELECTOR);
+        </code>
+      </div>
+      <div id="containerID" class="pushed-l container vertical-center">
+        <code>id: containerID</code>
+        <div id="nodeID" class="box">
+          <code>id: nodeID</code>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="../build/dom-main.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Javascript IV</title>
+  <title>Javascript II</title>
   <link rel="stylesheet" type="text/css" href="../build/build.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
@@ -11,130 +11,551 @@
 <body>
 <article class="deck">
 
-  <section class="bg-green">
-    <h1>Object Oriented Programming</h1>
+  <section class="bg-yellow">
+    <h1>Classes</h1>
   </section>
 
-  <section class="bg-green">
-    <h2 class="slide-title">Objects</h2>
-    <h3 class="slide-subtitle">Object literal</h3>
-    <pre>
-      <code class="language-javascript">
-        const person = {
-          name: 'Irene',
-          age: 27,
-          interests: ['drawing', 'coding'],
-          greeting: () => {
-            alert(`Hi! I'm ${this.name}.`);
-          }
-        };
-      </code>
-    </pre>
-  </section>
-
-  <section class="bg-green">
-    <h2 class="slide-title">Objects</h2>
-    <h3 class="slide-subtitle">Prototypes</h3>
-    <pre>
-      <code class="language-javascript">
-        function Person(name, age) {
-          let person = Object.create(personPrototype);
-          person.name = name;
-          person.age = age;
-          return person;
-        }
-        const personPrototype = {
-          sayHi: () => {
-            alert('Hi!');
-          }
-        };
-        const personInstance = Person('Irene', 27);
-      </code>
-    </pre>
-  </section>
-
-  <section class="bg-green">
-    <h2 class="slide-title">Objects</h2>
-    <h3 class="slide-subtitle">Prototype chaining</h3>
-    <pre>
-      <code class="language-javascript">
-        personPrototype.isPrototypeOf(personInstance); // true
-        
-        Object.prototype.isPrototypeOf(personPrototype); // true
-        
-        Object.prototype.isPrototypeOf(personInstance); // true
-      </code>
-    </pre>
-  </section>
-
-  <section class="bg-green">
-    <h2 class="slide-title">Objects</h2>
-    <h3 class="slide-subtitle">The new keyword</h3>
-    <pre>
-      <code class="language-javascript">
-        function Person(name, age) {
-          this.name = name;
-          this.age = age;
-        }
-        Person.prototype.sayHi = () => {
-          alert('Hi!');
-        }
-        const personInstance = new Person('Irene', 27);
-      </code>
-    </pre>
-    <p class="hint">The new keyword syntax is more widely used and accepted, so it's preferred over Object.create().</p>
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object-Oriented Programming</h2>
+    <p class="hint">OOP generally entails defining a type of thing (class), that includs data and behaviors, and then creating one or more instances of this class definition as actual objects that can hold values and perform tasks.</p>
+    <p class="hint">A way of deciding if you need class-orientation is if your program is going to have multiple instances of a single kind/type of behavior.</p>
   </section>
 
   <section class="bg-yellow">
     <h2 class="slide-title">Classes</h2>
     <pre>
       <code class="language-javascript">
-        class Animal {
-          constructor(name, specie) {
-              this.name = name;
-              this.specie = specie;
+        class Student {
+          constructor(name, age) {
+            this.name = name;
+            this.age = age;
           }
-          walk() {
-            return `${this.name} is walking.`;
-          }
-          jump() {
-            return `${this.name} is jumping.`;
+          sayHi() {
+            return `Hi! My name is ${this.name}.`;
           }
         }
-        const tomillo = new Animal('Tomillo', 'Cat');
+
+        const student1 = new Student('Juan', 20);
+
+        student1.sayHi();
+        // Hi! My name is Juan.
       </code>
     </pre>
-    <p class="hint">This is syntatic sugar, since javascript is still using its prototypes underneath it.</p>
+    <p class="hint">A class is defined using the <i>class</i> keyword, a name, and curly braces, everything inside the code block will run in strict mode, even if it is not set in the code.<br>An instance of the class can be created using the <i>new</i> keyword.</p>
+  </section> 
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The constructor</h2>
+    <pre>
+      <code class="language-javascript">
+        class ClassWithConstructor {
+          constructor(arg) {
+            console.log(`This function runs first with the parameter: ${arg}.`);
+          }
+        }
+
+        const instance = new ClassWithConstructor(10);
+        // This function runs first with the parameter: 10.
+      </code>
+    </pre>
+    <p class="hint">The constructor is a function invoked any time a new instance of the class is created. Javascript defines this function with the same name as the class but it can't be invoked without the <i>new</i> keyword.</p>
   </section>
 
   <section class="bg-yellow">
-    <h2 class="slide-title">Classes</h2>
-    <h3 class="slide-subtitle">Inheritance</h3>
+    <h2 class="slide-title">Class Methods</h2>
     <pre>
       <code class="language-javascript">
-        class Animal {
-          constructor(name, age, specie) {
-              this.name = name;
-              this.age = age;
-              this.specie = specie;
+        class Student {
+          sayHi() {
+            return `Hi! I'm a student.`;
           }
-          walk() {
-            return `${this.name} is walking.`;
+          sayBye() {
+            return 'Goodbye!'
           }
         }
 
-        class Cat extends Animal {
-          constructor(name, age, color) {
-            super(name, age, 'cat');
-            this.color = color;
-          }
-          sleep() {
-            return `${this.name} is sleeping.`;
-          }
-        }
-        const tomillo = new Cat('Tomillo', 3, 'yellow');
+        const student1 = new Student();
+
+        student1.sayHi();
+        // Hi! I'm a student.
       </code>
     </pre>
+    <p class="hint">A class can have methods inside the code block. This functions are defined without the <i>function</i> syntax, and without any comma or semicolon separating the method definitions.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The prototype</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          constructor(name, age) {
+            this.name = name;
+            this.age = age;
+          }
+          sayHi() {
+            return `Hi! I'm a student.`;
+          }
+        }
+
+        const student1 = new Student('Juan', 22);
+
+        Object.getPrototypeOf(student1) === Student.prototype
+        // true
+      </code>
+    </pre>
+    <p class="hint">Any methods defined inside the class are added to the object in the <i>prototype</i> property of each constructor.<br>This object is then linked to the instances as a prototype.</b></p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Properties</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          constructor(name) {
+            this.name = name;
+          }
+          setAge(age) {
+            this.age = age;
+          }
+        }
+
+        const student1 = new Student('Juan');
+        student1.name; // Juan
+
+        student1.setAge(25);
+        student1.age; // 25
+      </code>
+    </pre>
+    <p class="hint">In the constructor and any of the methods, you can use the <i>this</i> to add or access properties of the current instance.</b></p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Public fields</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          school = 'Cetav'
+          course = 'Javascript II'
+          constructor(name, age) {
+            this.name = name;
+            this.age = age;
+          }
+        }
+
+        const student1 = new Student('Juan', 24);
+        student1.name; // Juan
+        student1.school; // Cetav
+      </code>
+    </pre>
+    <p class="hint">Instead of defining a property with the <i>this</i> keyword, classes can define them in the class body and they will be created for each instance.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Class inheritance</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          sayHi() {
+            return 'Hi! I am a person.';
+          }
+        }
+
+        class Student extends Person {
+          study() {
+            return 'I am studying for my exam.';
+          }
+        }
+
+        const student1 = new Student();
+        student1.study(); // I am studying for my exam.
+        student1.sayHi; // Hi! I am a person.
+      </code>
+    </pre>
+    <p class="hint">A class can inherit properties and methods from another class through the <i>extends</i> keyword.<br>Class inheritance follows the prototype chain.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The super</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          constructor(name) {
+            this.name = name;
+          }
+          sayHi() {
+            return `Hi! I am ${this.name}`;
+          }
+        }
+
+        class Student extends Person {
+          constructor(name, school) {
+            super(name);
+            this.school = school;
+          }
+        }
+
+        const student1 = new Student('Juan', 'Cetav');
+        student1.sayHi; // Hi! I am Juan.
+        student.school; // Cetav
+      </code>
+    </pre>
+    <p class="hint">The <i>super</i> is the subclass way of accessing the parent class. If the sub-class has a constructor, it must call the parent class constructor with <i>super</i>.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Overriding methods</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          sayHi() {
+            return 'Hi! I am a person.';
+          }
+        }
+
+        class Student extends Person {
+          sayHi() {
+            return 'Hi! I am a student.';
+          }
+        }
+
+        const student1 = new Student();
+        student1.sayHi; // Hi! I am a student.
+      </code>
+    </pre>
+    <p class="hint">A sub-class can override any method or property from the parent class.<br>Any instance of the parent class will keep the original methods and properties.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Polymorphism</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          sayHi() {
+            return 'Hi! I am a person.';
+          }
+        }
+
+        class Student extends Person {
+          sayHi() {
+            return 'Hi! I am a student.';
+          }
+          sayHiAsAPerson() {
+            return super.sayHi();
+          }
+        }
+
+        const student1 = new Student();
+        student1.sayHi; // Hi! I am a student.
+        student1.sayHiAsAPerson; // Hi! I am a person.
+      </code>
+    </pre>
+    <p class="hint">The ability for methods of the same name, at different levels of the inheritance hierarchy, to exhibit different behavior when accessed directly, or with super, is called method polymorphism.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Instance of</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          sayHi() {
+            return 'Hi! I am a person.';
+          }
+        }
+
+        class Student extends Person {
+          sayHi() {
+            return 'Hi! I am a student.';
+          }
+        }
+
+        const person1 = new Person();
+        const student1 = new Student();
+
+        person1 instanceof Person; // true
+        person1 instanceof Student; // false
+
+        student1 instanceof Person; // true
+        student1 instanceof Student; // true
+      </code>
+    </pre>
+    <p class="hint">You can use the keyword <i>instanceof</i> to check whether an object is an instance of a class.<br>It will return true even if the object is not a direct instance of the class, but inherits from it. If you want to check only for the direct class, you can use the instance <i>constructor</i> property.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Statics</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          static school = 'Cetav'
+          static study() {
+            return 'I am studying!';
+          }
+          constructor(name) {
+            this.name = name;
+          }
+          sayHi() {
+            return `Hi! I am ${this.name}`;
+          }
+        }
+
+        const student1 = new Student('Juan');
+        student1.school; // undefined
+        Student.school; // Cetav
+      </code>
+    </pre>
+    <p class="hint">Static properties and methods are stored in the constructor function, so they are not passed down to the instances or stored on the prototype, and can't be accessed by the instances.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title"><i>This</i> in Statics</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          static school = 'Cetav'
+          static goToSchool() {
+            return `On my way to ${this.school}!`;
+          }
+          constructor(name) {
+            this.name = name;
+          }
+        }
+
+        Student.goToSchool; // On my way to Cetav!
+      </code>
+    </pre>
+    <p class="hint">The <i>this</i> inside static methods is not the context of the instance (like in the regular methods), but the context of the class, specifically the constructor object where static properties are stored.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Static block</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          static {
+            let school = 'Cetav';
+            this.goToSchool = function() {
+              return `On my way to ${school}!`;
+            }
+          }
+          constructor(name) {
+            this.name = name;
+          }
+        }
+
+        Student.goToSchool; // On my way to Cetav!
+        Student.school; // undefined
+      </code>
+    </pre>
+    <p class="hint">Static properties and methods can also be defined using a static code block. You can create variables and do computations that won't be stored in the constructor unless you define properties to the <i>this</i>, which is the constructor context.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Static inheritance</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          static {
+            this.species = 'Human being'
+            this.workplace = 'Fabric';
+          }
+        }
+
+        class Student extends Person {
+          static workplace = 'No workplace'
+        }
+
+        Student.species; // Human being
+        Student.workplace; // No workplace
+      </code>
+    </pre>
+    <p class="hint">Static properties and methods are inherited by sub-classes and can also be overriden by the sub-class.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Statics and instantiation</h2>
+    <pre>
+      <code class="language-javascript">
+        class PersonWithError {
+          mother = new Person('Lisa')
+          constructor(name) {
+            this.name = name;
+          }
+        }
+
+        const person1 = new Person('Juan');
+        // Uncaught RangeError: Maximum call stack size exceeded
+
+        class Person {
+          static mother = new Person('Lisa')
+          constructor(name) {
+            this.name = name;
+          }
+          sayHiToYourMother(mother) {
+            return `Hi, ${mother.name}.`;
+          }
+        }
+
+        const person2 = new Person('Juan');
+        person2.sayHiToYourMother(Person.mother); // Hi, Lisa.
+      </code>
+    </pre>
+    <p class="hint">You can't instantiate an object of the same class inside the class, because this will become an infinite loop. Since static properties run only once when the class is defined and not when objects are instantiated, they can hold instances of the same class.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Privates</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          #school = 'Cetav'
+          goToSchool() {
+            return `Going to ${this.#school}`;
+          }
+          constructor(name) {
+            this.name = name;
+          }
+        }
+
+        const student1 = new Student('Juan');
+
+        student1.#school;
+        // SyntaxError: Private field '#school' must be declared in an enclosing class
+
+        student1.goToSchool(); // Going to Cetav
+      </code>
+    </pre>
+    <p class="hint">Private methods and properties can be defined using the <i>#</i> syntax. These properties can't be accessed directly from the instances, they must be accessed from other methods in the class.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Privates Inheritance</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          #school = 'Cetav'
+        }
+
+        class Student extends Person {
+          goToSchool() {
+            return `Going to ${this.#school}`;
+          }
+          constructor(name) {
+            super();
+            this.name = name;
+          }
+        }
+
+        // Uncaught SyntaxError: Private field '#school' must be declared in an enclosing class
+      </code>
+    </pre>
+    <p class="hint">Private methods and properties are not inherited by sub-classes, and a class definition will throw an error when trying to access private properties that don't exist in the class.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Privates Inheritance in Sub-Classes</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          #friend = 'Lisa';
+          #workplace = 'Fabric'
+          goToWork() {
+            return `Going to ${this.#workplace}`;
+          }
+          constructor(name) {
+            this.name = name;
+          }
+          getFriend() {
+            return this.#friend;
+          }
+        }
+
+        class Student extends Person {
+          constructor(name) {
+            super(name);
+          }
+          sayHiToYourFriend() {
+            const friend = this.getFriend();
+            return `Hi, ${friend}!`;
+          }
+        }
+
+        const student1 = new Student('Juan');
+        student1.goToWork(); // Going to Fabric
+        student1.sayHiToYourFriend(); // Hi, Lisa!
+      </code>
+    </pre>
+    <p class="hint">Private methods can be accessed by sub-classes and their instances, using methods in the class that defines the private fields.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Private Statics</h2>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          static #school = 'Cetav';
+          static #goToSchool() {
+            return `I am going to ${this.#school}`;
+          }
+          whatWillYouDoToday() {
+            return Student.#goToSchool();
+          }
+        }
+
+        const student1 = new Student();
+        student1.whatWillYouDoToday(); // I am going to Cetav
+      </code>
+    </pre>
+    <p class="hint">Static properties and methods are inherited by sub-classes and can also be overriden by the sub-class.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Private Statics Inheritance</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          static #species = 'human being'
+          static getSpecies() {
+            return `I am a ${this.#species}`;
+          }
+        }
+      
+        class Student extends Person {
+          constructor(name) {
+            this.name = name;
+          }
+        }
+
+        Person.getSpecies(); // I am a human being
+        Student.getSpecies === Person.getSpecies; // true
+        Student.getSpecies();
+        // Uncaught TypeError: Cannot read private member #species from an object whose class did not declare it
+      </code>
+    </pre>
+    <p class="hint">Even though sub-classes can access private properties from methods in the same class that defined them, when this private methods are static, the properties can't be accessed like this.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Private Statics Inheritance Fixed</h2>
+    <pre>
+      <code class="language-javascript">
+        class Person {
+          static #species = 'human being'
+          static getSpecies() {
+            return `I am a ${Person.#species}`;
+          }
+        }
+      
+        class Student extends Person {
+          constructor(name) {
+            this.name = name;
+          }
+        }
+
+        Student.getSpecies();
+        // I am a human being
+      </code>
+    </pre>
+    <p class="hint">If public static functions are being inherited, use the class name to access any private statics instead of using <i>this</i>.</p>
   </section>
 
   <section class="bg-yellow">

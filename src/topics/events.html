@@ -20,39 +20,22 @@
     <h3 class="slide-subtitle">Event attributes on HTML elements</h3>
     <pre>
       <code class="language-javascript">
+        &lt;script&gt;
+          function onClickHandler() {
+            alert('Hello!');
+          }
+        &lt;/script&gt; 
         &lt;button onclick=&quot;alert('Hello!')&quot;&gt;Text&lt;/button&gt;
         &lt;button onclick=&quot;(() =&gt; alert('Hello!'))()&quot;&gt;Text&lt;/button&gt;
-        &lt;button onclick=&quot;(function() { alert('Hello!') })()&quot;&gt;Text&lt;/button&gt;
+        &lt;button onclick=&quot;onClickHandler()&quot;&gt;Text&lt;/button&gt;
       </code>
     </pre>
     <p class="hint">Assigning an inline HTML event attribute is inefficient and difficult to maintain. It doesn't allow you to reuse handlers and inline javascript can't span multiple lines.</p>
-  </section>
+  </section>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
   <section class="bg-cyan">
     <h2 class="slide-title">Event handlers</h2>
-    <h3 class="slide-subtitle">HTML script tag</h3>
-    <pre>
-      <code class="language-javascript">
-        &lt;html&gt;
-        &lt;head&gt;
-          &lt;script&gt;
-            function onClickHandler() {
-              alert('Hello!');
-            }
-          &lt;/script&gt; 
-        &lt;/head&gt;
-        &lt;body&gt;
-          &lt;button onclick=&quot;onClickHandler()&quot;&gt;Text&lt;/button&gt;
-          &lt;button onclick=&quot;onClickHandler()&quot;&gt;Text&lt;/button&gt;
-        &lt;/body&gt;
-      &lt;/html&gt;
-      </code>
-    </pre>
-  </section>
-
-  <section class="bg-cyan">
-    <h2 class="slide-title">Event handlers</h2>
-    <h3 class="slide-subtitle">Event methods on DOM elements</h3>
+    <h3 class="slide-subtitle">Event handler property on DOM elements</h3>
     <pre>
       <code class="language-javascript">
         const button = document.getElementById("btn");
@@ -65,7 +48,7 @@
     <p class="hint">Event methods don't allow you to have more than one handler for each event. Any subsequent event will overwrite the previous one.</p>
   </section>
 
-  <section class="bg-yellow">
+  <section class="bg-cyan">
     <h2 class="slide-title">Event Listeners</h2>
     <pre>
       <code class="language-javascript">
@@ -82,7 +65,7 @@
     </pre>
   </section>
 
-  <section class="bg-yellow">
+  <section class="bg-cyan">
     <h2 class="slide-title">Event Listeners</h2>
     <h3 class="slide-subtitle">Object listener</h3>
     <pre>
@@ -96,6 +79,46 @@
         button.addEventListener('click', eventObj);
       </code>
     </pre>
+    <p class="hint">If passing an object, it must be an instance of Event, or at least implement the property <i>handleEvent</i>.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Mouse Events</h2>
+    <div class="box-wrap">
+      <div id="e-click" class="box">click Event Fired: 0</div>
+      <div id="e-move" class="box">mousemove Event Fired: 0</div>
+      <div id="e-enter" class="box">mouseenter Event Fired: 0</div>
+      <div id="e-leave" class="box">mouseleave Event Fired: 0</div>
+    </div>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Input Events</h2>
+    <div class="input-wrap">
+      <input type="text" id="e-input" class="input" />
+      <p id="e-input-text">input Event Fired: 0</p>
+    </div>
+    <div class="input-wrap">
+      <input type="text" id="e-focus" class="input" />
+      <p id="e-focus-text">focus Event Fired: 0</p>
+    </div>
+    <div class="input-wrap">
+      <input type="text" id="e-blur" class="input" />
+      <p id="e-blur-text">blur Event Fired: 0</p>
+    </div>
+    <div class="input-wrap">
+      <input type="text" id="e-change" class="input" />
+      <p id="e-change-text">change Event Fired: 0</p>
+    </div>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Keyboard Events</h2>
+    <div class="input-wrap" style="height: 300px">
+      <input type="text" id="e-key" class="input" />
+      <p style="padding-top: 20px" id="e-keydown-text"></p>
+      <p id="e-keyup-text"></p>
+    </div>
   </section>
 
   <section class="bg-yellow">
@@ -112,6 +135,7 @@
         button.removeEventListener('click', handler);
       </code>
     </pre>
+    <button class="btn" id="btn">BUTTON</button>
   </section>
 
   <section class="bg-yellow">
@@ -130,6 +154,7 @@
       <p>Passive: if true, indicates that the handler will never call preventDefault().</p>
       <p>Signal: the listener will be removed when the given AbortSignal’s abort() method is called.</p>
     </div>
+    <button class="btn" id="btn">BUTTON</button>
   </section>
 
   <section class="bg-yellow">

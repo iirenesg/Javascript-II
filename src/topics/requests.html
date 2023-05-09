@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript II</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Network requests</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">HTTP(S) requests</h2>
+    <img src="/images/rest-request.png" alt="">
+    <p class="hint">Clients can make requests to API servers, these servers send a response to the client with information about whether the transaction was successful.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Representational state transfer (REST)</h2>
+    <img src="/images/rest.png" alt="">
+    <p class="hint">RESTful APIs communicate via HTTP(S) requests and have these architectural constraints: Uniform interface, Client-server decoupling, Statelessness, Cacheability, Layered system architecture, Code on demand (optional).</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">CRUD</h2>
+    <div>
+      <p>GET - Read data from a databse</p>
+      <p>POST - Create record in the database</p>
+      <p>PUT - Update record in the database</p>
+      <p>DELETE - Delete record in the database</p>
+    </div>
+    <p class="hint">REST APIs perform standard database functions like creating, reading, updating, and deleting records (CRUD).</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">JavaScript Object Notation (JSON)</h2>
+    <pre>
+      <code class="language-javascript">
+        {
+          "squadName": "Super hero squad",
+          "homeTown": "Metro City",
+          "formed": 2016,
+          "secretBase": "Super tower",
+          "active": true
+        }
+      </code>
+    </pre>
+    <p class="hint">JSON is text-based data format.<br>You can include primitive data types — strings, numbers, booleans; as well as arrays and object literals.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">JSON</h2>
+    <pre>
+      <code class="language-javascript">
+        [
+          {
+            "name": "Molecule Man",
+            "age": 29,
+            "secretIdentity": "Dan Jukes",
+            "powers": ["Radiation resistance", "Turning tiny", "Radiation blast"]
+          },
+          {
+            "name": "Madame Uppercut",
+            "age": 39,
+            "secretIdentity": "Jane Wilson",
+            "powers": [
+              "Million tonne punch",
+              "Damage resistance",
+              "Superhuman reflexes"
+            ]
+          }
+        ]
+      </code>
+    </pre>
+    <p class="hint">Arrays can also be valid JSON, as well as primitive values like strings and numbers.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">JSON vs Js Objects</h2>
+    <pre>
+      <code class="language-javascript">
+        {
+          "squadName": "Super hero squad",
+          "homeTown": "Metro City",
+          "formed": 2016,
+          "secretBase": "Super tower",
+          "active": true,
+          "members": [
+            {
+              "name": "Molecule Man",
+              "age": 29,
+              "secretIdentity": "Dan Jukes",
+              "powers": ["Radiation resistance", "Turning tiny", "Radiation blast"]
+            },
+            {
+              "name": "Madame Uppercut",
+              "age": 39,
+              "secretIdentity": "Jane Wilson",
+              "powers": [
+                "Million tonne punch",
+                "Damage resistance",
+                "Superhuman reflexes"
+              ]
+            }
+          ]
+        }
+      </code>
+    </pre>
+    <p class="hint">JSON is very similar to a javascript object or array, with some differences: object properties must be quoted, all strings and properties use double quotes, trailing commas are not allowed, and it can't contain comlpex objects or functions.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">JSON methods</h2>
+    <pre>
+      <code class="language-javascript">
+        const jsObject = {
+          squadName: 'Super hero squad',
+          homeTown: 'Metro City',
+          formed: 2016,
+          secretBase: 'Super tower',
+          active: true,
+        };
+
+        const jsonString = JSON.stringify(jsObject);
+
+        const jsObjectAgain = JSON.parse(jsonString);
+      </code>
+    </pre>
+    <p class="hint">You can parse javascript values to JSON using the <i>stringify</i> method in the global JSON object, and get the Js value from a JSON by using the <i>parse</i> method.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Asynchronous JavaScript and XML (AJAX)</h2>
+    <img src="/images/ajax.png" style="max-height: 500px" alt="">
+    <p class="hint">With Ajax, web applications can send and retrieve data from a server asynchronously without interfering with the display and behaviour of the page. By decoupling the data interchange layer from the presentation layer, Ajax allows web applications to change content dynamically without the need to reload the entire page.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">XMLHTTPRequest</h2>
+    <pre>
+      <code class="language-javascript">
+        function success() {
+          var data = JSON.parse(this.responseText);
+          console.log(datos);
+        }
+
+        function error(err) {
+          console.log('Request failed', err);
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.onload = success;
+        xhr.onerror = error;
+        xhr.open('GET', 'https://catfact.ninja/fact');
+        xhr.send();
+      </code>
+    </pre>
+    <p class="hint">Despite having the word XML in its name, it can operate on any data, not only in XML format.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Fetch</h2>
+    <pre>
+      <code class="language-javascript">
+        fetch('https://catfact.ninja/fact')
+          .then(response => response.json()) 
+          .then(json => console.log(json)) 
+          .catch(err => console.log('There was an error!', err)); 
+      </code>
+    </pre>
+    <p class="hint">Fetch returns a promise, so we can subscribe to a success and fail result by using the <i>then</i> and <i>catch</i> methods.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Fetch</h2>
+    <pre>
+      <code class="language-javascript">
+        async function getData() {
+          const data = await fetch('https://catfact.ninja/fact');
+
+          console.log(data);
+          return data;
+        }
+        
+      </code>
+    </pre>
+    <p class="hint">Fetch returns a promise, so we can use the <i>async/await</i> keywords.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Fetch Headers</h2>
+    <pre>
+      <code class="language-javascript">
+        fetch('https://catfact.ninja/fact', {
+          method: "GET",
+          headers: {"Content-type": "application/json"}
+        })
+          .then(response => response.json()) 
+          .then(json => console.log(json)); 
+          .catch(err => console.log(err));
+      </code>
+    </pre>
+    <p class="hint">The second argument to a fetch call is an object of options.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Fetch POST Request</h2>
+    <pre>
+      <code class="language-javascript">
+        const data = {
+          title: "foo",
+          Id: 1
+        };
+
+        fetch('https://catfact.ninja/fact', {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {"Content-type": "application/json"}
+        })
+        .then(response => response.json()) 
+        .then(json => console.log(json));
+        .catch(err => console.log(err));
+      </code>
+    </pre>
+    <p class="hint">If the request is using other methods like POST, you can send data to the API using the body of the request.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

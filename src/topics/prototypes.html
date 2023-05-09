@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript II</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Constructors & Prototypes</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <pre>
+      <code class="language-javascript">
+        const obj = {
+          name: "Juan"
+        };
+
+        Object.getOwnPropertyDescriptor(obj, 'name');
+        // { value: 'Juan', enumerable: true, configurable: true, writable: true }
+      </code>
+    </pre>
+    <p class="hint">Each property in an object has a set of characteristics that define its behavior.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining property descriptors</h2>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {};
+
+        Object.defineProperty(myObject, "propertyName", {
+          value: 'hello!',
+          writable: true,
+          configurable: true,
+          enumerable: true
+        });
+      </code>
+    </pre>
+    <p class="hint">You can define the property descriptor by using the <i>defineProperty</i> method of the Object.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Writable</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {};
+
+        Object.defineProperty(myObject, "name", {
+          value: 'Juan',
+          writable: false,
+          configurable: true,
+          enumerable: true
+        });
+
+        myObject.name = 'Daniel';
+
+        myObject.name;
+        // 'Juan'
+      </code>
+    </pre>
+    <p class="hint">The <i>writable</i> property defines whether the property can be asigned a new value.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Configurable</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {};
+
+        Object.defineProperty(myObject, "name", {
+          value: 'Juan',
+          writable: true,
+          configurable: false,
+          enumerable: true
+        });
+
+        Object.defineProperty(myObject, "name", {
+          value: 'Daniel',
+          writable: true,
+          configurable: true,
+          enumerable: true
+        });
+        // Uncaught TypeError: Cannot redefine property: name
+
+        delete myObject.name
+        // false
+      </code>
+    </pre>
+    <p class="hint">The <i>configurable</i> property defines whether the property's descriptor can be changed.<br>Also, if it is false, the property can't be deleted.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Enumerable</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = { age: 12 };
+
+        Object.defineProperty(myObject, "name", {
+          value: 'Juan',
+          writable: true,
+          configurable: true,
+          enumerable: false
+        });
+
+        Object.keys(myObject);
+        // ['age']
+      </code>
+    </pre>
+    <p class="hint">The <i>enumerable</i> property defines whether the property will be part of object-property enumerations (like Object.keys()).</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Getters and Setters</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {
+          get greeting() {
+            return 'hello!';
+          },
+          set greeting(val) {
+            this._greeting_ = val;
+          }
+        };
+
+        myObject.greeting();
+        // 'hello!'
+      </code>
+    </pre>
+    <p class="hint">You can define a specific get and set method for a property to override the default behavior of reading and assigning a value to a property.<br>This changes the property's descriptor from a data descriptor to an accessor descriptor</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Other configurations - preventExtensions</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {
+          name: 'Juan'
+        };
+
+        Object.preventExtensions(myObject);
+
+        myObject.age = 12;
+
+        myObject;
+        // {name: 'Juan'}
+      </code>
+    </pre>
+    <p class="hint">Calling preventExtensions on an object prevents the addition of new properties or methods to the object.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Other configurations - Seal</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {
+          name: 'Juan'
+        };
+
+        Object.seal(myObject);
+
+        delete myObject.name;
+
+        myObject;
+        // {name: 'Juan'}
+      </code>
+    </pre>
+    <p class="hint">Seal is the same as calling both <i>preventExtensions</i> and setting all its properties as <i>configurable: false. This means you can't add any more properties and can't delete the existing ones.</i></p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Property descriptors</h2>
+    <h3 class="slide-subtitle">Other configurations - Freeze</h3>
+    <pre>
+      <code class="language-javascript">
+        const myObject = {
+          name: 'Juan'
+        };
+
+        Object.freeze(myObject);
+
+        myObject.name = 'Sam;
+
+        myObject;
+        // {name: 'Juan'}
+      </code>
+    </pre>
+    <p class="hint">Freeze is the same as calling both <i>seal</i> and setting all its properties as <i>writable: false. This means you can't add, remove or change any property.</i></p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object Sub-Types</h2>
+    <h3 class="slide-subtitle">Arrays</h3>
+    <pre>
+      <code class="language-javascript">
+        const myList = [ 23, 42, 109 ];
+
+        myList.length
+        // 3
+      </code>
+    </pre>
+    <p class="hint">Arrays are numerically indexed objects, meaning it's properties are integers instead of strings.<br>You can define string properties as well but it is not considered a good practice.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object Sub-Types</h2>
+    <h3 class="slide-subtitle">Functions</h3>
+    <pre>
+      <code class="language-javascript">
+        function greet(name) {
+          return `Hi ${name}!`;
+        }
+
+        greet.name
+        // 'greet'
+
+        greet.length
+        // 1
+      </code>
+    </pre>
+    <p class="hint">Functions are also objects and can have properties assigned, but this is not considered a good practice.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object Sub-Types</h2>
+    <h3 class="slide-subtitle">Constructors</h3>
+    <pre>
+      <code class="language-javascript">
+        typeof Date
+        // Object
+
+        typeof Error
+        // Object
+
+        typeof RegExp
+        // Object
+      </code>
+    </pre>
+    <p class="hint">All built-in constructors in JS are also sub-types of Object.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Prototypes</h2>
+    <pre>
+      <code class="language-javascript">
+        const simpleObj = { name: 'Juan' };
+
+        simpleObj.toString();
+
+        const simpleString = 'hello';
+
+        simpleString.toUpperCase();
+      </code>
+    </pre>
+    <p class="hint">Prototypes are the mechanism by which JS objects inherit properties and methods from one another.</p>
+  </section>
+  
+  <section class="bg-cyan">
+    <h2 class="slide-title">Accessing Prototypes</h2>
+    <pre>
+      <code class="language-javascript">
+        const simpleNumber = 12;
+
+        simpleNumber.__proto__
+        // Number {...}
+
+        Object.getPrototypeOf(simpleNumber);
+        // Number {...}
+      </code>
+    </pre>
+    <p class="hint">The prototype is stored in the <i>__proto__</i> property.<br>It can also be accessed through the <i>getPrototypeOf</i> method of the global Object, and it's the recommended approach.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Prototype chain</h2>
+    <pre>
+      <code class="language-javascript">
+        const simpleNumber = 12;
+
+        const proto1 = Object.getPrototypeOf(simpleNumber);
+        // Number {...}
+
+        const proto2 = Object.getPrototypeOf(proto1);
+        // Object {...}
+      </code>
+    </pre>
+    <p class="hint">A prototype can also have a prototype, creating a chain of prototypes that ends when the prototype is <i>null</i>, usually the global Object.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Setting a prototype</h2>
+    <pre>
+      <code class="language-javascript">
+        const proto = {
+          greet() {
+            return 'hello!'
+          }
+        }
+
+        const newObj = Object.create(proto);
+
+        newObj;
+        // {}
+
+        newObj.greet();
+        // 'hello!'
+
+        Object.getPrototypeOf(newObj) === proto;
+        // true
+      </code>
+    </pre>
+    <p class="hint">Any object can be the prototype of another.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Shadowing properties</h2>
+    <pre>
+      <code class="language-javascript">
+        const proto = {
+          greet() {
+            return 'hello!'
+          }
+        }
+
+        const newObj = Object.create(proto);
+
+        newObj.greet = function () { return 'hi!' };
+
+        newObj.greet();
+        // 'hi!'
+      </code>
+    </pre>
+    <p class="hint">When a property with the same name is defined, it will be used instead of the prototype property.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Constructors</h2>
+    <pre>
+      <code class="language-javascript">
+        const stringInstance = new String('Hi!');
+
+        stringInstance;
+        // String {'Hi!'}
+
+        const str = String('Hi!');
+
+        str;
+        // Hi!
+      </code>
+    </pre>
+    <p class="hint">A constructor in JS is a function that creates (or constructs) a new object and returns it. This object is prototype based, not class based as in other OOP languages.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Constructors</h2>
+    <h3 class="slide-subtitle">Custom</h3>
+    <pre>
+      <code class="language-javascript">
+        function ConstructAStudent(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+
+        const student1 = new ConstructAStudent('Juan', 20);
+        const student2 = new ConstructAStudent('Susana', 25);
+      </code>
+    </pre>
+    <p class="hint">Any function can be a constructor when called with the new keyword. The <i>this</i> will be the context for the new object, so any properties or methods defined to it will be part of the returned object.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Constructors</h2>
+    <h3 class="slide-subtitle">Prototypes</h3>
+    <pre>
+      <code class="language-javascript">
+        const proto = {
+          greet() {
+            return 'hello!'
+          }
+        };
+
+        const Person = function(name) {
+          this.name = name;
+        }
+
+        Person.prototype = proto;
+
+        const student = new Person('Juan');
+
+        student.greet();
+        // 'hello!'
+      </code>
+    </pre>
+    <p class="hint">All functions have a prototype property that does not return the function's property, but defines the prototype for any object created when that function is used as a constructor.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

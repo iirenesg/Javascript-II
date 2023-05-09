@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript II</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Promises</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promises</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(fn);
+      </code>
+    </pre>
+    <p class="hint">The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The executor</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(function(resolve, reject) {
+          // executor code
+        });
+      </code>
+    </pre>
+    <p class="hint">The function passed to new Promise is called the executor. When new Promise is created, the executor runs automatically.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The executor callbacks</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(function(resolve, reject) {
+          // Do something asynchronous
+          if (success) {
+            resolve(data);
+          } else {
+            reject(throw new Error('Oh no!'))
+          }
+        });
+      </code>
+    </pre>
+    <p class="hint">When the executor obtains the result, it should call one of these callbacks:<br>resolve(value) — if the job is finished successfully, with result value.<br>reject(error) — if an error has occurred, error is the error object.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise status</h2>
+    <img style="max-width: 600px" src="/images/promise-status.png" alt="">
+    <p class="hint">The promise object returned by the new Promise constructor has these internal properties:<br>- state: initially "pending", then changes to either "fulfilled" when resolve is called or "rejected" when reject is called.
+      <br>- result: initially undefined, then changes to value when resolve(value) is called or error when reject(error) is called.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise fulfilled</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(function(resolve, reject) {
+          // the function is executed automatically when the promise is constructed
+        
+          // after 1 second the job is done with the result "done"
+          setTimeout(() => resolve("done"), 1000);
+        });
+      </code>
+    </pre>
+    <img style="max-width: 600px" src="/images/promise-fulfilled.png" alt="">
+    <p class="hint">The <i>resolve</i> callback returns the data promised.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise rejected</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(function(resolve, reject) {
+          // after 1 second the job is finished with an error
+          setTimeout(() => reject(new Error("Oh nooo!")), 1000);
+        });
+      </code>
+    </pre>
+    <img style="max-width: 600px" src="/images/promise-error.png" alt="">
+    <p class="hint">The <i>reject</i> callback returns an error. It can be any value, but it is recommended to return an instance of <i>Error</i>.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promises</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(function(resolve, reject) {
+          resolve("done");
+        
+          reject(new Error("Oh nooo!")); // ignored
+          setTimeout(() => resolve("data")); // ignored
+        });
+      </code>
+    </pre>
+    <p class="hint">A promise that is either resolved or rejected is called “settled”. Any calls to either resolve or reject are final, subsequent calls are ignored.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Consumers</h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise(...);
+
+        promise.then(callback); // handle a successful result 
+        promise.catch(callback); // handle an error
+      </code>
+    </pre>
+    <p class="hint">The consumers are functions that will receive the result or error.  Consuming functions can be registered (subscribed) using the methods .then and .catch.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The <i>then</i></h2>
+    <pre>
+      <code class="language-javascript">
+        let promise = new Promise(function(resolve, reject) {
+          setTimeout(() => resolve("done!"), 1000);
+        });
+        
+        // resolve runs the first function in .then
+        promise.then(
+          result => alert(result), // shows "done!" after 1 second
+          error => alert(error) // doesn't run
+        );
+      </code>
+    </pre>
+    <p class="hint">The first argument of .then is a function that runs when the promise is resolved and receives the result.<br>The second argument of .then is a function that runs when the promise is rejected and receives the error.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The <i>then</i></h2>
+    <pre>
+      <code class="language-javascript">
+        let promise = new Promise(function(resolve, reject) {
+          setTimeout(() => reject(new Error("Oh nooooo!")), 1000);
+        });
+        
+        // reject runs the second function in .then
+        promise.then(
+          result => alert(result), // doesn't run
+          error => alert(error) // shows "Error: Oh nooooo!" after 1 second
+        );
+      </code>
+    </pre>
+    <p class="hint">The second argument of .then is a function that runs when the promise is rejected, but it is more common to use .catch.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The <i>catch</i></h2>
+    <pre>
+      <code class="language-javascript">
+        let promise = new Promise((resolve, reject) => {
+          setTimeout(() => reject(new Error("Oh nooooo!")), 1000);
+        });
+        
+        promise.catch(alert); // shows "Error: Oh nooooo!" after 1 second
+      </code>
+    </pre>
+    <p class="hint">The .catch runs only if the promise is rejected.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The <i>finally</i></h2>
+    <pre>
+      <code class="language-javascript">
+        const promise = new Promise((resolve, reject) => setTimeout(() => resolve("done!"), 1000);)
+
+        // runs when the promise is settled, doesn't matter successfully or not
+        promise
+          .finally(() => console.log("Promise is settled"))
+          .then(result => result);
+      </code>
+    </pre>
+    <p class="hint">The .finally runs always, when the promise is settled: be it resolve or reject.<br>In finally we don’t know whether the promise is successful or not. The idea of finally is to set up a handler for performing cleanup/finalizing after the previous operations are complete.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Already filfilled promises</h2>
+    <pre>
+      <code class="language-javascript">
+        // the promise becomes resolved immediately upon creation
+        let promise = new Promise(resolve => resolve("done!"));
+
+        promise.then(alert); // done! (shows up right away)
+      </code>
+    </pre>
+    <p class="hint">If a promise is pending, .then/catch/finally handlers wait for its outcome. But we can add handlers at any time: if the result is already there, they just execute.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise chaining</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          new Promise(function(resolve, reject) {
+            setTimeout(() => resolve(1), 1000);
+          }).then(function(result) {
+            alert(result); // 1
+            return result * 2;
+          }).then(function(result) {
+            alert(result); // 2
+            return result * 2;
+          }).then(function(result) {
+            alert(result); // 4
+            return result * 2;
+          });
+        </code>
+      </pre>
+      <img style="margin-left: 40px; max-height: 500px" src="/images/promise-chain.png" alt="">
+    </div>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise chaining</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          let promise = new Promise(function(resolve, reject) {
+            setTimeout(() => resolve(1), 1000);
+          });
+          
+          promise.then(function(result) {
+            alert(result); // 1
+            return result * 2;
+          });
+          
+          promise.then(function(result) {
+            alert(result); // 1
+            return result * 2;
+          });
+          
+          promise.then(function(result) {
+            alert(result); // 1
+            return result * 2;
+          });
+        </code>
+      </pre>
+      <img style="margin-left: 40px; max-width: 500px" src="/images/promise-not-chain.png" alt="">
+    </div>
+    <p class="hint">Calling several handlers on the promise is not chaining, since they won't pass the value to each other.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promises returning promises</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          new Promise(function(resolve, reject) {
+            setTimeout(() => resolve(1), 1000);
+          }).then(function(result) {
+            alert(result); // 1
+            return new Promise((resolve, reject) => {
+              setTimeout(() => resolve(result * 2), 1000);
+            });
+          }).then(function(result) {
+            alert(result); // 2
+            return new Promise((resolve, reject) => {
+              setTimeout(() => resolve(result * 2), 1000);
+            });
+          }).then(function(result) {
+            alert(result); // 4
+          });
+        </code>
+      </pre>
+    </div>
+    <p class="hint">When chaining handlers, we can return a promise from them and subsequent handlers will wait for it to be settled.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Error handling</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          new Promise((resolve, reject) => {
+            throw new Error("Oh nooooo!");
+          }).catch(alert);
+
+          new Promise((resolve, reject) => {
+            resolve("ok");
+          }).then((result) => {
+            throw new Error("Oh nooooo!");
+          }).catch(alert);
+        </code>
+      </pre>
+    </div>
+    <p class="hint">The .catch will execute even when javascript errors happen inside the promise or inside any of the handlers.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise.all</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          Promise.all([
+            new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+            new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+            new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+          ]).then(alert);
+        </code>
+      </pre>
+    </div>
+    <p class="hint">Promise.all will wait until all promises are fulfilled to call the handlers.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise.all</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          Promise.all([
+            new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+            new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 2000)),
+            new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+          ]).catch(alert);
+        </code>
+      </pre>
+    </div>
+    <p class="hint">If one promise inside Promise.all fails, the whole promise fails.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Promise.allSettled</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          Promise.all([
+            new Promise((resolve, reject) => setTimeout(() => resolve(1), 1000)),
+            new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 2000)),
+            new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+          ]).catch(alert);
+        </code>
+      </pre>
+    </div>
+    <p class="hint">Promise.allSettled doesn't fail if one of the promises is rejected.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Async/Await</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          async function fn() {
+            return 1;
+          }
+          
+          fn().then(alert); // 1
+        </code>
+      </pre>
+    </div>
+    <p class="hint">The word “async” before a function means a function always returns a promise. Other values are wrapped in a resolved promise automatically.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Async/Await</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          const promise = new Promise((resolve, reject) => {
+            setTimeout(() => resolve("done!"), 3000);
+          });
+
+          async function fn() {
+            let result = await promise; // wait until the promise resolves
+          
+            alert(result); // "done!"
+          }
+          
+          fn();
+        </code>
+      </pre>
+    </div>
+    <p class="hint">You can use the keyword await inside an async function to make javascript wait for the promise to resolve or reject.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Async/Await Error handling</h2>
+    <div class="box-wrap" style="align-items: center;">
+      <pre>
+        <code class="language-javascript">
+          const promise = new Promise((resolve, reject) => {
+            setTimeout(() => resolve("done!"), 3000);
+          });
+
+          async function fn() {
+            let result = await promise; // wait until the promise resolves
+          
+            alert(result); // "done!"
+          }
+
+          try {
+            fn()
+          } catch(err) {
+            alert(err);
+          }
+          }
+        </code>
+      </pre>
+    </div>
+    <p class="hint">We can use regular try/catch blocks to handle erros while using async/await.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

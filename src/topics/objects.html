@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript II</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Objects</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining Objects</h2>
+    <pre>
+      <code class="language-javascript">
+        const objName = {
+          property: "value"
+        };
+
+        const anotherObj = new Object({ property: "value" });
+      </code>
+    </pre>
+    <p class="hint">Objects are a collection of key/value pairs.<br>They can be declared using the object literal syntax or using the Object constructor.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">Defining properties and values</h3>
+    <pre>
+      <code class="language-javascript">
+        const objName = {
+          property: "This is the property value",
+          method: () => {
+            return "This is a function inside an object"
+          }
+        };
+
+        objName.property
+        // "This is the property value"
+
+        objName.method(); 
+        // "This is a function inside an object"
+      </code>
+    </pre>
+    <p class="hint">Values like numbers, strings, arrays or other objects are usually called properties.<br>When the value is a function is usually refered to as a method.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">Accessing values</h3>
+    <pre>
+      <code class="language-javascript">
+        const objName = {
+          property: "This is the property value",
+          method: () => {
+            return "This is a function inside an object"
+          },
+          anotherProperty: "This is another property value"
+        };
+
+        objName["property"]
+        // "This is the property value"
+
+        objName.method(); 
+        // "This is a function inside an object"
+
+        const prop = "anotherProperty";
+        objName[prop];
+        // "This is another property value"
+      </code>
+    </pre>
+    <p class="hint">Properties can be accessed using dot notation or square bracket syntax. When using square brackets, we can use variables and expressions to get the property name.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Objects</h2>
+    <h3 class="slide-subtitle">Assessing properties</h3>
+    <pre>
+      <code class="language-javascript">
+        const objName = {
+          name: 'Juan',
+          age: 25,
+        };
+
+        age in objName;
+        // true
+
+        objName.hasOwnProperty('age');
+        // true
+        
+        objName.hasOwnProperty('school');
+        // false
+
+        Object.hasOwn(objName, 'age');
+        // true
+      </code>
+    </pre>
+    <p class="hint">.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining properties and values</h2>
+    <h3 class="slide-subtitle">Numbers and booleans</h3>
+    <pre>
+      <code class="language-javascript">
+        const objName = {
+          15: "This will be trated as an index",
+          "20": "This will also be trated as an index",
+          false: "This will be trated as a string"
+        };
+
+        objName.15
+        // Uncaught SyntaxError: Unexpected number
+
+        objName["15"]
+        // "This will be trated as an index"
+
+        objName.false; 
+        // "This will be trated as a string"
+      </code>
+    </pre>
+    <p class="hint">Numbers used as property names, whether they are number literals or numbers as strings, will be treated as an index in the object, so they can't be accessed using dot notation, only with square brackets.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining properties</h2>
+    <h3 class="slide-subtitle">Variables</h3>
+    <pre>
+      <code class="language-javascript">
+        const variableName = "school";
+
+        const objName = {
+          [variableName]: "Cetav"
+        };
+
+        objName
+        // {school: 'Cetav'}
+
+        objName.school
+        // "Cetav"
+      </code>
+    </pre>
+    <p class="hint">Using square brackets, a variable can be used as the property name for an object. If the variable contains something other than a string, the result can be unexpected and it is not recommended.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining properties and values</h2>
+    <h3 class="slide-subtitle">Expressions</h3>
+    <pre>
+      <code class="language-javascript">
+        const getPropertyName = () => "school";
+        const name = "Juan";
+
+        const objName = {
+          [getPropertyName()]: "Cetav",
+          calculatedValue: 15 * 4,
+          [`hola ${name}`]: "This is a calculated name"
+        };
+
+        objName
+        // {school: 'Cetav', calculatedValue: 60, hola Juan: "This is a calculated name"}
+
+        objName.calculatedValue
+        // 60
+
+        objName["hola Juan"]
+        // "This is a calculated name"
+      </code>
+    </pre>
+    <p class="hint">Both property names and values can be defined using an expressions, and javascript will use the calculated result.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining properties</h2>
+    <h3 class="slide-subtitle">Symbols</h3>
+    <pre>
+      <code class="language-javascript">
+        const mySymbol = Symbol("Description");
+
+        const objName = {
+          [mySymbol]: "This is the symbol value"
+        };
+
+        objName
+        // {Symbol(Description): 'This is the symbol value'}
+      </code>
+    </pre>
+    <p class="hint">Because symbols are globally unique in your code, there's no chance of accidental name collision with other property names.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Defining properties</h2>
+    <h3 class="slide-subtitle">Shorthand methods</h3>
+    <pre>
+      <code class="language-javascript">
+        const name = "Cetav";
+
+        const objName = {
+          name, // This is the same as { name: name }
+          getName() {
+            return this.name
+          }
+        };
+
+        objName.name
+        // "Cetav"
+
+        objName.getName()
+        // "Cetav"
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Deleting properties</h2>
+    <pre>
+      <code class="language-javascript">
+        const objName = {
+          property: "This is the property value",
+          anotherProperty: "This is another property value"
+        };
+
+        delete objName.anotherProperty;
+
+        objName
+        // {property: 'This is the property value'}
+
+        objName.anotherProperty
+        // undefined
+      </code>
+    </pre>
+    <p class="hint">Deleting a property from an object can only be done with the <i>delete</i> operator. This is different from assigning undefined to the property, since this won't remove the property from the object.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object spread</h2>
+    <pre>
+      <code class="language-javascript">
+        const firstObj = {
+          name: 'Juan',
+          school: 'Cetav'
+        };
+
+        const secondObj = {
+          age: 21,
+          ...firstObj
+        }
+
+        secondObj
+        // {age: 21, name: 'Juan', school: 'Cetav'}
+
+        secondObj.name
+        // "Juan"
+      </code>
+    </pre>
+    <p class="hint">The object spread will copy the properties of one object into another.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object spread</h2>
+    <h3 class="slide-subtitle">Overwrites</h3>
+    <pre>
+      <code class="language-javascript">
+        const student1 = {
+          name: 'Juan',
+          school: 'Cetav',
+          age: 25,
+        };
+
+        const student2 = {
+          age: 21,
+          ...student1,
+          name: "Linda"
+        }
+
+        student2
+        // {age: 25, name: 'Linda', school: 'Cetav'}
+      </code>
+    </pre>
+    <p class="hint">The copy of the object properties happen in order, this means that previous properties will be overwritten with new ones if they have the same name.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Object spread</h2>
+    <h3 class="slide-subtitle">References</h3>
+    <pre>
+      <code class="language-javascript">
+        const student1 = {
+          name: 'Linda',
+          likes: ['running', 'cycling']
+        };
+
+        const student2 = {
+          ...student1,
+          name: 'Juan',
+        }
+
+        student2.likes.push('hiking');
+        student1.likes;
+        // ['running', 'cycling', 'hiking']
+
+        student2.likes = ['reading', 'sleeping'];
+        student1.likes;
+        // ['running', 'cycling', 'hiking']
+      </code>
+    </pre>
+    <p class="hint">The copy of the object properties is shallow, this means references to objects and arrays will remain the same, and updates to one will reflect on the other one as well.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Destructuring</h2>
+    <pre>
+      <code class="language-javascript">
+        const student = {
+          name: 'Juan',
+          age: 21,
+          school: 'Cetav'
+        };
+
+        const { name, age } = student;
+
+        console.log(name)
+        // Juan
+
+        console.log(age)
+        // 21
+      </code>
+    </pre>
+    <p class="hint">Destructuring is another way of accessing object properties and methods by declaring variables and assigning the values to them.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Destructuring</h2>
+    <h3 class="slide-subtitle">Default values</h3>
+    <pre>
+      <code class="language-javascript">
+        const student = {
+          name: 'Juan',
+          school: 'Cetav'
+        };
+
+        const { name, age = 25 } = student;
+
+        console.log(age)
+        // 25
+      </code>
+    </pre>
+    <p class="hint">When destructuring, you can define a default value, in case the property is not found in the object.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Destructuring</h2>
+    <h3 class="slide-subtitle">Changing property names</h3>
+    <pre>
+      <code class="language-javascript">
+        const student = {
+          name: 'Juan',
+          school: 'Cetav'
+        };
+
+        const { school: schoolName } = student;
+
+        console.log(schoolName)
+        // 'Cetav'
+
+        console.log(school)
+        // Uncaught ReferenceError: school is not defined
+      </code>
+    </pre>
+    <p class="hint">When destructuring, you can define a new name for the value that will hold the property value.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Destructuring</h2>
+    <h3 class="slide-subtitle">Nested objects</h3>
+    <pre>
+      <code class="language-javascript">
+        const student = {
+          school: {
+            primary: 'Primary school',
+            secondary: 'Secondary school',
+          }
+        };
+
+        const { school: { secondary } } = student;
+
+        console.log(secondary)
+        // 'Secondary school'
+
+        console.log(school)
+        // Uncaught ReferenceError: school is not defined
+      </code>
+    </pre>
+    <p class="hint">When destructuring, you can define a default value, in case the property is not found in the object.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Optional chaining</h2>
+    <pre>
+      <code class="language-javascript">
+        const student = {
+          school: {
+            primary: 'Primary school',
+            secondary: 'Secondary school',
+          }
+        };
+
+        const studentSchool = student.school?.primary;
+        const studentCity = student.address?.city;
+
+        console.log(studentSchool);
+        // 'Primary school'
+
+        console.log(studentCity);
+        // undefined
+
+        const city = student.address.city;
+        // Uncaught TypeError: Cannot read properties of undefined (reading 'city')
+      </code>
+    </pre>
+    <p class="hint">Optional chaining checks whether a property value is not nullish (null or undefined) before trying to access properties inside it.<br>This is useful when properties might not be present, as a way to avoid an exception thrown.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Objects as lists</h2>
+    <pre>
+      <code class="language-javascript">
+        const student = {
+          name: 'Juan',
+          age: 25,
+          school: 'Cetav'
+        };
+
+        Object.keys(student);
+        // ['name', 'age', 'school']
+
+        Object.values(student);
+        // ['Juan', 25, 'Cetav']
+
+        Object.entries(student);
+        // [['name', 'Juan'], ['age', 25], ['school', 'Cetav']]
+      </code>
+    </pre>
+    <p class="hint">There are other ways to get the properties, the methods listed above only return properties or values that are enumerable. The method <i>Object.getOwnPropertyNames(object) will return also non-enumerable properties but not symbols. To get the symbol properties we can use <i>Object.getOwnPropertySymbols(object)</i>.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

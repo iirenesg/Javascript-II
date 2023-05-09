@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript II</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Regular expressions</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Regular expressions (Regex)</h2>
+    <pre>
+      <code class="language-javascript">
+        const regex = /d(b+)d/g;
+
+        const anotherRegex = /ab+c/;
+
+        const aBigOne = /^(\d{1,2}-){2}\d{2}(\d{2})?$/;
+      </code>
+    </pre>
+    <p class="hint">Regular expressions are a way of describing patterns in a string of data, which allows you to search for strings that match that pattern.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Testing Regex</h2>
+    <pre>
+      <code class="language-javascript">
+        const regex = /hola/;
+
+        regex.test('hola');  // true
+        regex.test('hola y adios');  // true
+        regex.test('un hola y otro hola');  // true
+        regex.test('adios');  // false
+      </code>
+    </pre>
+    <!-- <p class="hint">You can test the .</p> -->
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Creating a Regex</h2>
+    <pre>
+      <code class="language-javascript">
+        const regexLiteral = /abc/i;
+
+        const regexInstance = new RegExp('abc', 'i');
+      </code>
+    </pre>
+    <p class="hint">If you need to create a regex dynamically, using the regex literal syntax won't work, you'll need to use the constructor.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Testing</h2>
+    <pre>
+      <code class="language-javascript">
+        const regex = /hello/;
+        const string = 'hello world';
+
+        regex.test(string);
+
+        regex.exec(string);
+      </code>
+    </pre>
+    <p class="hint">The test method returns a boolean, and the exec method returns an array of matched groups.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Testing</h2>
+    <pre>
+      <code class="language-javascript">
+        const regex = /hello/;
+        const string = 'hello world';
+
+        string.match(regex);
+        string.search(regex);
+        string.replace(regex, 'hi');
+      </code>
+    </pre>
+    <p class="hint">Every string has methods in its prototype that can be used with regex patterns.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Regex Characters</h2>
+    <pre>
+      <code class="language-javascript">
+        /[abcd]/    // Matches any of the characters in brakets
+        /[a-d]/     // Matches any of the characters in brakets
+        /[^abcd]/   // Matches any character that is not in brakets
+        /[^a-d]/   // Matches any character that is not in brakets
+        /./        // Matches any character except line breaks
+        /\d/        // Matches any digit
+        /\D/        // Matches any character except digits
+        /\w/        // Matches any alphanumeric character
+        /\W/        // Matches any character except alphanumeric characters
+        /\s/        // Matches a white space
+        /\S/        // Matches any character except white spaces
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Boundaries</h2>
+    <pre>
+      <code class="language-javascript">
+        /^hola/    // ^ Marks the start of the string
+        /hola$/    // $ Marks the end of the string
+        /\bho/    // \b marks a word boundary
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Quantifiers</h2>
+    <pre>
+      <code class="language-javascript">
+        /ho*/      // Matches the character if it appears 0 or more times
+        /ho+/      // Matches the character if it appears 1 or more times
+        /ho{n}/    // Matches the character if it appears n times
+        /ho{n, }/    // Matches the character if it appears n or more times
+        /ho{n, m}/    // Matches the character if it appears between n and m times
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Groups</h2>
+    <pre>
+      <code class="language-javascript">
+        const regex = /(mo)/;
+
+        'amor'.matchAll(regex);
+        'mormon'.matchAll(regex);
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Flags</h2>
+    <pre>
+      <code class="language-javascript">
+        'mormon'.match(/mo/g);   // g makes the search global
+        'AMOR'.match(/mo/i);    // i makes the search case insensitive
+        'monday\nmorning'.match(/^mo/m);    // m allows ^ and $ to match newline characters
+        'monday\nmorning'.match(/monday.morning/s);    // s allows . to match newline characters
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
