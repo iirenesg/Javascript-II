@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>Javascript IV</title>
+  <title>Javascript III</title>
   <link rel="stylesheet" type="text/css" href="../build/build.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
@@ -13,30 +13,78 @@
 
   <section class="bg-green">
     <h1>Observer Pattern</h1>
+    <img style="max-width: 900px" src="/images/observer-cover.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/observer-problem.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <p class="hint">The observer pattern is useful when you have a one-to-many relationship in your application, meaning that changes to one piece of the application trigger changes in many different places.</p>
+    <p class="hint">If the code that changes were to trigger all the different pieces of code that need to be updated, we would lose decoupling, and the code could become messy.</p>
+    <p class="hint">If the pieces of code that need to update when the change occurs were to be checking every few seconds for changes, we would lose a lot of resources.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The solution</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/observer-solution.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The solution</h2>
+    <p class="hint">The observer pattern suggests decoupling the code that changes (publisher) and the different pieces of code that need to run when this change occurs (subscribers).</p>
+    <p class="hint">The publisher must have a subscription mechanism so that the individual subscribers can subscribe to the changes. And store a list of the subscribers to invoke when the change occurs.</p>
+    <p class="hint">The subscribers must implement the same interface, meaning they should all be functions that can be invoked or objects that have a method with the same name.</p>
   </section>
 
   <section class="bg-green">
-    <h2 class="slide-title">Observer</h2>
-    <h3 class="slide-subtitle">Class definition</h3>
+    <h2 class="slide-title">Publisher</h2>
+    <h3 class="slide-subtitle">Simple example</h3>
+    <pre>
+      <code class="language-javascript">
+        const publisher = {
+          subscribers = [];
+          subscribe(subscriber) {
+            this.subscribers.push(subscriber);
+          },
+          publish(data) {
+            this.subscribers.forEach(subscriber => subscriber(data));
+          }
+        };
+
+        const subscriber = (data) => console.log('Event published!', data);
+
+        publisher.subscribe(subscriber);
+        publisher.publish('hello!');
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Publisher</h2>
+    <h3 class="slide-subtitle">Using classes</h3>
     <pre>
       <code class="language-javascript">
         class EventManager {
           constructor() {
-            this.subscribers = [];
+            this.observers = [];
           }
           
           subscribe(observer) {
-            this.subscribers.push(observer);
+            this.observers.push(observer);
           }
           
           onChange(data) {
-            this.subscribers.forEach(observer => observer.update(data));
+            this.observers.forEach(observer => observer.update(data));
           }
         }
 
         class Observer {
           update(data) {
-            // Do something with the new data
+            console.log('Data Changed!', data);
           }
         }
       </code>
@@ -44,13 +92,10 @@
   </section>
 
   <section class="bg-green">
-    <h2 class="slide-title">Observer</h2>
-    <h3 class="slide-subtitle">Usage</h3>
+    <h2 class="slide-title">Subscribers</h2>
+    <h3 class="slide-subtitle">Using classes</h3>
     <pre>
       <code class="language-javascript">
-        import EventManager from './EventManager.js';
-        import Observer from './Observer.js';
-
         const eventManager = new EventManager();
 
         const observer1 = new Observer();
@@ -58,26 +103,88 @@
 
         eventManager.subscribe(observer1);
         eventManager.subscribe(observer2);
+        eventManager.onChange({ newData: 'hi!' });
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Publisher</h2>
+    <h3 class="slide-subtitle">Using functions</h3>
+    <pre>
+      <code class="language-javascript">
+        function Publisher() {
+          this.subscribers = [];
+        }
+        
+        Publisher.prototype.subscribe = (element) => {
+          this.subscribers.push(element);
+        };
+        
+        Publisher.prototype.unsubscribe = (element) => {
+          const elementIndex = this.subscribers.indexOf(element);
+          if (elementIndex > -1) {
+            this.subscribers.splice(elementIndex, 1);
+          }
+        };
+        
+        Publisher.prototype.publish = (data) => {
+          this.subscribers.forEach((subscriber) => {
+            subscriber(data);
+          });
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Subscribers</h2>
+    <h3 class="slide-subtitle">Using functions</h3>
+    <pre>
+      <code class="language-javascript">
+        const publisher = new Publisher();
+        
+        function subscriber1(data) {
+          console.log("Subscriber 1", data);
+        }
+        
+        function subscriber2(data) {
+          console.log("Subscriber 2", data);
+        }
+        
+        function subscriber3(data) {
+          console.log("Subscriber 3", data);
+        }
+        
+        publisher.subscribe(subscriber1);
+        publisher.subscribe(subscriber2);
+        publisher.subscribe(subscriber3);
+        
+        publisher.publish("Hello!");
+        
+        publisher.unsubscribe(subscriber2);
+        
+        publisher.publish("Goodbye!");
       </code>
     </pre>
   </section>
 
   <section class="bg-green">
     <h2 class="slide-title">Observer</h2>
-    <h3 class="slide-subtitle">Class definition</h3>
+    <h3 class="slide-subtitle">Using events</h3>
     <pre>
       <code class="language-javascript">
         class EventManager {
-          constructor() {
-            this.event = 'song.play';
+          constructor(eventName) {
+            this.event = eventName;
+          }
+
+          subscribe(subscriber) {
+            document.addEventListener(this.event, subscriber);
           }
           
-          subscribe(callback) {
-            document.addEventListener(this.event, callback);
-          }
-          
-          fireEvent(song) {
-            document.dispatchEvent(new CustomEvent(this.event, { detail: song }));
+          fireEvent(data) {
+            document.dispatchEvent(new CustomEvent(this.event, { detail: data }));
           }
         }
       </code>
@@ -86,18 +193,18 @@
 
   <section class="bg-green">
     <h2 class="slide-title">Observer</h2>
-    <h3 class="slide-subtitle">Usage</h3>
+    <h3 class="slide-subtitle">Using events</h3>
     <pre>
       <code class="language-javascript">
-        import EventManager from './EventManager.js';
+        const eventManager = new EventManager('custom.event.name');
 
-        const eventManager = new EventManager();
-
-        const observer = (song) => {
-          // Do something with the song
+        const subscriber = (data) => {
+          console.log('Event fired!', data);
         };
 
-        eventManager.subscribe(observer);
+        eventManager.subscribe(subscriber);
+
+        eventManager.fireEvent(Date.now());
       </code>
     </pre>
   </section>
