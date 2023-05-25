@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript III</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Constructor / Prototype Pattern</h1>
+    <img style="max-width: 900px" src="/images/prototype.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <p class="hint">The constructor pattern is useful when we need to create objects that share the same methods and property names.</p>
+    <p class="hint">By taking advantage of javascript prototypes, we save memory by using the same reference for methods in all our objects.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Constructors</h2>
+    <h3 class="slide-subtitle">Custom</h3>
+    <pre>
+      <code class="language-javascript">
+        function ConstructAStudent(name, age) {
+          this.name = name;
+          this.age = age;
+        }
+
+        const student1 = new ConstructAStudent('Juan', 20);
+        const student2 = new ConstructAStudent('Susana', 25);
+      </code>
+    </pre>
+    <p class="hint">Any function can be a constructor when called with the new keyword. The <i>this</i> will be the context for the new object, so any properties or methods defined to it will be part of the returned object.</p>
+  </section>
+
+  <section class="bg-cyan">
+    <h2 class="slide-title">Constructors</h2>
+    <h3 class="slide-subtitle">Prototypes</h3>
+    <pre>
+      <code class="language-javascript">
+        const proto = {
+          greet() {
+            return 'hello!'
+          }
+        };
+
+        const Person = function(name) {
+          this.name = name;
+        }
+
+        Person.prototype = proto;
+
+        const student = new Person('Juan');
+
+        student.greet();
+        // 'hello!'
+      </code>
+    </pre>
+    <p class="hint">All functions have a prototype property that does not return the function's property, but defines the prototype for any object created when that function is used as a constructor.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Constructors</h2>
+    <h3 class="slide-subtitle">Classes</h3>
+    <pre>
+      <code class="language-javascript">
+        class Student {
+          constructor(name, age) {
+            this.name = name;
+            this.age = age;
+          }
+          sayHi() {
+            return `Hi! My name is ${this.name}.`;
+          }
+        }
+
+        const student1 = new Student('Juan', 20);
+
+        student1.sayHi();
+        // Hi! My name is Juan.
+      </code>
+    </pre>
+    <p class="hint">A class is defined using the <i>class</i> keyword, a name, and curly braces, everything inside the code block will run in strict mode, even if it is not set in the code.<br>An instance of the class can be created using the <i>new</i> keyword.</p>
+  </section> 
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Thanks</h2>
+  </section>
+</article>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>

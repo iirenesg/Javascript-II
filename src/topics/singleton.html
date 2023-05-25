@@ -11,8 +11,15 @@
 <body>
 <article class="deck">
 
-  <section class="bg-orange">
-    <h1>Singleton Pattern</h1>
+  <section class="bg-yellow">
+    <h1>Singleton</h1>
+    <img style="max-width: 900px" src="/images/singleton.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <p class="hint">The singleton pattern is useful when we need to control access to a piece of the code, ensuring that we have only one copy of it.</p>
+    <p class="hint">The singleton pattern also provides us with a global access point to that instance, so that we can access it from everywhere in the application, but protecting it from being overwritten.</p>
   </section>
 
   <section class="bg-orange">
@@ -20,7 +27,46 @@
     <h3 class="slide-subtitle">Class declaration</h3>
     <pre>
       <code class="language-javascript">
-        // This is the regular class
+        let instance;
+        let counter = 0;
+        
+        class Counter {
+          constructor() {
+            if (instance) {
+              throw new Error("You can only create one instance!");
+            }
+            instance = this;
+          }
+        
+          getInstance() {
+            return this;
+          }
+        
+          getCount() {
+            return counter;
+          }
+        
+          increment() {
+            return ++counter;
+          }
+        
+          decrement() {
+            return --counter;
+          }
+        }
+        
+        const singletonCounter = Object.freeze(new Counter());
+        export default singletonCounter;
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-orange">
+    <h2 class="slide-title">Singleton</h2>
+    <h3 class="slide-subtitle">Class declaration</h3>
+    <pre>
+      <code class="language-javascript">
+        // This is a regular class
         class State {
           constructor() {
             this.orders = [];
@@ -33,19 +79,19 @@
         }
 
         // This is the singleton
-        class StateSingleton {
+        class Singleton {
           constructor() {
-            if (!StateSingleton.instance) {
-              StateSingleton.instance = new State();
+            if (!Singleton.instance) {
+              Singleton.instance = new State();
             }
           }
 
-          getStateSingleton() {
-            return StateSingleton.instance
+          getInstance() {
+            return Singleton.instance
           }
         }
 
-        export default StateSingleton;
+        export default Singleton;
       </code>
     </pre>
   </section>
@@ -55,19 +101,17 @@
     <h3 class="slide-subtitle">Usage</h3>
     <pre>
       <code class="language-javascript">
-        // In one file
-        import State from './State.js';
-        const state = new State().getStateSingleton();
+        // In some place of the app
+        const state = new Singleton().getInstance();
 
         const renderOrders = (orders) => {
-          // Some code here
+          console.log('Do something with the orders', orders);
         };
 
         renderOrders(state.orders);
 
-        // In another file
-        import State from './State.js';
-        const state = new State().getStateSingleton();
+        // In another place of the app
+        const anotherStateVar = new Singleton().getInstance();
 
         const handleOrder = (event) => {
           state.addOrder(event.target.value);
