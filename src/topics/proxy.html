@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript III</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-green">
+    <h1>Proxy Pattern</h1>
+    <img style="max-width: 900px" src="/images/proxy-problem.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <p class="hint">The proxy pattern is useful when we want to control access to an object.</p>
+    <p class="hint">This could be because you want to change the default behaviour of the object, or because you want to increase the functionality, doing something before or after the original object's action.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The solution</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/proxy-solution.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The solution</h2>
+    <p class="hint">The proxy pattern creates a new object that wraps the original one.</p>
+    <p class="hint">This object will act as a substitute, managing the actions between the code and the original object, so that the proxy we can change the behaviour of certain actions and delegate the rest to the original object.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Javascript Proxy</h2>
+    <pre>
+      <code class="language-javascript">
+        const target = {
+          name: 'John',
+          age: 21
+        };
+        const handler = {};
+        const proxy = new Proxy(target, handler);
+
+        proxy.name;  // John
+      </code>
+    </pre>
+    <p class="hint">A proxy is an object that will wrap another object. It requires two arguments, the target (the object you want to wrap) and the handler (an object with methods to override the original object behavior).<br>The proxy will have access to the object's properties and methods.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Javascript Proxy</h2>
+    <h3 class="slide-subtitle">The <i>get</i> method</h3>
+    <pre>
+      <code class="language-javascript">
+        const targetObj = {
+          name: 'John',
+          age: 21
+        };
+        const handler = {
+          get: (target, key) => {
+            console.log(`Fetching property ${key}: ${target[key]}`);
+            return target[key];
+          }
+        }
+
+        const proxy = new Proxy(targetObj, handler);
+        proxy.name; // Fetching property name: John
+      </code>
+    </pre>
+    <p class="hint">The get method handles reading a property from the object, it receives the target object and the property name as parameters.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Javascript Proxy</h2>
+    <h3 class="slide-subtitle">The <i>get</i> method</h3>
+    <pre>
+      <code class="language-javascript">
+        const targetObj = {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 21
+        };
+        const handler = {
+          get: (target, key) => {
+            if (key === 'fullName') {
+              return `${target.firstName} ${target.lastName}`;
+            }
+
+            return target[key];
+          }
+        }
+
+        const proxy = new Proxy(targetObj, handler);
+        proxy.fullName; // John Doe
+      </code>
+    </pre>
+    <p class="hint">The get method can also handle logic for properties that don't exist in the original object, so that we can compute values dynamically.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Javascript Proxy</h2>
+    <h3 class="slide-subtitle">The <i>set</i> method</h3>
+    <pre>
+      <code class="language-javascript">
+        const targetObj = {
+          name: 'John',
+          age: 21
+        };
+        const handler = {
+          set(target, key, value) {
+            if (key === 'age' && !Number.isInteger(value)) {
+              throw new Error('Age must be a number!');
+              return false;
+            }
+            target[key] = value;
+            return true;
+          }
+        }
+
+        const proxy = new Proxy(targetObj, handler);
+        proxy.age = 'hi!'; // Uncaught Error: Age must be a number!
+      </code>
+    </pre>
+    <p class="hint">The set method handles writing a property in the object, it receives the target object, the property name and the value as parameters.<br>The set method must return true if the property was set or false if it wasn't.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Proxy traps (handler methods)</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/proxy-methods.png" alt="">
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Javascript Reflect</h2>
+    <pre>
+      <code class="language-javascript">
+        const targetObj = {
+          name: 'John',
+          age: 21
+        };
+        const handler = {
+          set(target, key, value) {
+            if (key === 'age' && !Number.isInteger(value)) {
+              throw new Error('Age must be a number!');
+              return false;
+            }
+
+            return Reflect.set(target, key, value);
+          }
+        }
+
+        const proxy = new Proxy(targetObj, handler);
+        proxy.age = 'hi!'; // Uncaught Error: Age must be a number!
+      </code>
+    </pre>
+    <p class="hint">The Reflect object contains static methods for invoking JavaScript object internal methods.<br>The major use case of Reflect is to provide default forwarding behavior in Proxy handler traps.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Javascript Reflect</h2>
+    <pre>
+      <code class="language-javascript">
+        import logger from 'utils/logger';
+
+        const targetObj = {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 21
+        };
+
+        const proxy = new Proxy(targetObj, {
+          deleteProperty(target, property) {
+            logger.log(`Property deleted: ${property}`);
+
+            return Reflect.deleteProperty(target, property);
+          },
+        });
+
+        delete proxy.age;
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Proxy Arrays</h2>
+    <pre>
+      <code class="language-javascript">
+        let numbers = [];
+
+        const proxy = new Proxy(numbers, {
+          set(target, index, value) {
+            if (typeof value === 'number') {
+              return Reflect.set(target, index, value);
+            } else {
+              return false;
+            }
+          }
+        });
+
+        proxy.push(2);
+        proxy.push('hello!'); // Uncaught TypeError: 'set' on proxy: trap returned falsish
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Proxy Functions</h2>
+    <pre>
+      <code class="language-javascript">
+        function sayHi(name) {
+          alert(`Hello, ${name}!`);
+        }
+
+        const proxy = new Proxy(sayHi, {
+          apply(target, thisArg, args) {
+            setTimeout(() => target.apply(thisArg, args), 3000);
+          }
+        });
+        
+        proxy('John');
+        // Hello, John! (after 3 seconds)
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Proxy Use Cases</h2>
+    <ul>
+      <li>Logging actions to keep a history of requests to the object.</li>
+      <li>Validating values before they are written to the object.</li>
+      <li>Formatting values before writting them or before reading them from the object.</li>
+      <li>Lazy initialization (delay the computation of values until they are needed).</li>
+      <li>Caching values instead of computing or requesting it every time.</li>
+    </ul>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
