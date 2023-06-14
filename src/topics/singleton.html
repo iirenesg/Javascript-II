@@ -22,9 +22,8 @@
     <p class="hint">The singleton pattern also provides us with a global access point to that instance, so that we can access it from everywhere in the application, but protecting it from being overwritten.</p>
   </section>
 
-  <section class="bg-orange">
+  <section class="bg-yellow">
     <h2 class="slide-title">Singleton</h2>
-    <h3 class="slide-subtitle">Class declaration</h3>
     <pre>
       <code class="language-javascript">
         let instance;
@@ -61,63 +60,97 @@
     </pre>
   </section>
 
-  <section class="bg-orange">
-    <h2 class="slide-title">Singleton</h2>
-    <h3 class="slide-subtitle">Class declaration</h3>
-    <pre>
-      <code class="language-javascript">
-        // This is a regular class
-        class State {
-          constructor() {
-            this.orders = [];
-            this.user = {};
-          }
-
-          addOrder(order) {
-            this.orders.push(order)
-          }
-        }
-
-        // This is the singleton
-        class Singleton {
-          constructor() {
-            if (!Singleton.instance) {
-              Singleton.instance = new State();
-            }
-          }
-
-          getInstance() {
-            return Singleton.instance
-          }
-        }
-
-        export default Singleton;
-      </code>
-    </pre>
-  </section>
-
-  <section class="bg-orange">
+  <section class="bg-yellow">
     <h2 class="slide-title">Singleton</h2>
     <h3 class="slide-subtitle">Usage</h3>
     <pre>
       <code class="language-javascript">
         // In some place of the app
-        const state = new Singleton().getInstance();
+        import counter from './counter-state.js';
 
-        const renderOrders = (orders) => {
-          console.log('Do something with the orders', orders);
-        };
-
-        renderOrders(state.orders);
+        counter.increment();
+        console.log("Counter total: ", counter.getCount());
 
         // In another place of the app
-        const anotherStateVar = new Singleton().getInstance();
+        import counter from './counter-state.js';
+        
+        counter.decrement();
+        console.log("Counter total: ", counter.getCount());
+      </code>
+    </pre>
+  </section>
 
-        const handleOrder = (event) => {
-          state.addOrder(event.target.value);
+  <section class="bg-yellow">
+    <h2 class="slide-title">Is the singleton pattern useful in javascript?</h2>
+    <p class="hint">In many OOP languages, it's not possible to create an object directly, you need to create a class that in turn creates the object. Due to the nature of classes, if you want to restrict the number of copies of the object, you need to implement singleton logic so that only one copy can be instantiated.</p>
+    <p class="hint">In javascript, clases are a way to reuse code to create multiple instances of an object. If you want to create only one object, you can do it directly, and avoid all the boilerplate of implementing a singleton class.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Singleton in javascript</h2>
+    <pre>
+      <code class="language-javascript">
+        let count = 0;
+
+        const counter = {
+          increment() {
+            return ++count;
+          },
+          decrement() {
+            return --count;
+          },
+          getCount() {
+            return count;
+          }
+        };
+
+        Object.freeze(counter);
+        export default counter;
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Singleton in javascript</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        // In some place of the app
+        import counter from './counter-state.js';
+
+        counter.increment();
+        console.log("Counter total: ", counter.getCount());
+
+        // In another place of the app
+        import counter from './counter-state.js';
+        
+        counter.decrement();
+        console.log("Counter total: ", counter.getCount());
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">State management</h2>
+    <pre>
+      <code class="language-javascript">
+        const state = {};
+    
+        function getState() {
+          return { ...state };
+        }
+    
+        function setState(newState) {
+          state = { ...state, ...newState };
+        }
+    
+        return {
+          getState,
+          setState,
         };
       </code>
     </pre>
+    <p class="hint">When building a state management module, it's important to keep it decoupled from any other logic in the application.<br /> Also, it's a good practice to keep the state private, and make available only methods to get or set the state.</p>
   </section>
 
 <script src="../build/build.js"></script>
