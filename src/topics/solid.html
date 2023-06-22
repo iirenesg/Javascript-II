@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript III</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-green">
+    <h1>SOLID principles for software design</h1>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">S.O.L.I.D</h2>
+    <p class="hint">S - Single-responsibility Principle</p>
+    <p class="hint">O - Open-closed Principle</p>
+    <p class="hint">L - Liskov Substitution Principle</p>
+    <p class="hint">I - Interface Segregation Principle</p>
+    <p class="hint">D - Dependency Inversion Principle</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Single-responsibility Principle</h2>
+    <p class="hint">A class or module should have only one responsability.</p>
+    <p class="hint">This doesn't mean that a module or a class should have only one method, it means it should have only one reason to change. </p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Single-responsibility Principle</h2>
+    <pre>
+      <code class="language-javascript">
+        class Cart {
+          constructor() {
+            this.products = [];
+            this.paymentProcessor = new PaymentProcesor();
+          }
+
+          addItem(item) {
+            this.products.push(item);
+          }
+
+          updateItem(id, newItem) {
+            const idx = this.products.findIndex(product => id === product.id);
+            this.products[idx] = newItem;
+          }
+
+          deleteItem(id) {
+            this.products.filter(product => id !== product.id);
+          }
+
+          // Is this the cart responsability?
+          processOrder(products) {
+            this.paymentProcessor.processOrder(products);
+          }
+        }
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Open-closed Principle</h2>
+    <p class="hint">A module or class should be open for extension, but closed for modification.</p>
+    <p class="hint">It means that you should be able to extend the functionality of an entity without the need to modify the existing functionality.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Open-closed Principle</h2>
+    <pre>
+      <code class="language-javascript">
+        import CreditCardProcessor from './credit-card-processor';
+
+        class PaymentGateway {
+          // What if we want to implement another payment method?
+          processOrder(order, creditCardNumber, expiration, cvv) {
+            this.validateCreditCard(order, creditCardNumber, expiration, cvv);
+          }
+
+          validateCreditCard(order, creditCardNumber, expiration, cvv) {
+            creditCardProcessor.validate(creditCardNumber, expiration, cvv);
+
+            if (valid) {
+              this.makePayment(order, creditCardNumber);
+            }
+          }
+
+          makePayment(order, creditCardNumber) {
+            const price = order.total;
+            creditCardProcessor.payment(price, creditCardNumber);
+          }
+        }
+      </code>
+    </pre>
+  </section>
+
+   <section class="bg-yellow">
+    <h2 class="slide-title">Liskov Substitution Principle</h2>
+    <p class="hint">If S is a subtype of T, then objects of type T should be replaced with objects of type S.</p>
+    <p class="hint">This means that methods that work for a base class should work for classes that inherit from this class.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Liskov Substitution Principle</h2>
+    <pre>
+      <code class="language-javascript">
+        class PaymentProcessor {
+          getOrderTotal(order) {
+            return order.total;
+          }
+          validatePayment(creditCardNumber, expirationDate, cvv) {
+            ....
+          }
+        }
+
+        class CreditCardProcessor extends PaymentProcessor {
+          constructor(creditCardNumber, expirationDate, cvv) {
+            this.creditCardNumber = creditCardNumber;
+            this.expirationDate = expirationDate;
+            this.cvv = cvv;
+          }
+          processCreditCard() {
+            ....
+          }
+        };
+
+        class PayPalProcessor extends PaymentProcessor {
+          constructor(email) {
+            this.userEmail = email;
+          }
+          processPayPal() {
+            ....
+          }
+        };
+
+        const payPalProcessor = new PayPalProcessor();
+        payPalProcessor.validatePayment(creditCardNumber, expirationDate, cvv);
+        // This method will break because the paypal instance doesn't have those properties
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Interface Segregation Principle</h2>
+    <p class="hint">No class should be forced to implement any interface method(s) that it does not use.</p>
+    <p class="hint">Since there are no <i>interfaces</i> in javascript, this is not a common issue. Javascript doesn't require you to add any specific methods to your classes.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Interface Segregation Principle</h2>
+    <pre>
+      <code class="language-javascript">
+        const creditCardProcessor = {
+          processPayment() {
+            ....
+          }
+          validatePayment() {
+            ....
+          }
+        };
+
+        const payPalProcessor = {
+          processPayment() {
+            ....
+          }
+          // This method doesn't make sense for this object
+          validatePayment() {
+            ....
+          }
+        };
+      </code>
+    </pre>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Dependency Inversion Principle</h2>
+    <p class="hint">High-level modules/classes should not depend on low-level modules/classes. Always keep the high-level module and the low-level module as loosely coupled as possible.</p>
+    <p class="hint">This principle is targeted towards loosely coupling modules so that they are easily reusable and unaffected by changes of other modules.</p>
+  </section>
+
+  <section class="bg-green">
+    <h2 class="slide-title">Dependency Inversion Principle</h2>
+    <pre>
+      <code class="language-javascript">
+        const creditCardProcessor = {
+          processCreditCard() {
+            ....
+          }
+        };
+
+        const payPalProcessor = {
+          processPayPal() {
+            ....
+          }
+        };
+
+        class PaymentGateway {
+          processOrder(order, paymentType, paymentData) {
+            // Instead of adding conditionals, all processors could have the same interface
+            if (paymentType === 'creditCard') {
+              creditCardProcessor.processCreditCard(order);
+            } else if (paymentType === 'paypal') {
+              payPalProcessor.processPayPal(order);
+            }
+          }
+        }
+      </code>
+    </pre>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
