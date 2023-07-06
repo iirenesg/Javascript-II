@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript III</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Javascript tooling - Bundlers</h1>
+    <img style="max-width: 900px" src="/images/bundlers.webp" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Why is performance important?</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/codevsimages.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Performance</h2>
+    <p class="hint">Code splitting</p>
+    <p class="hint">Lazy loading</p>
+    <p class="hint">Tree shaking</p>
+    <p class="hint">Minify</p>
+    <p class="hint">Uglify</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Bundling</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/bundle-server.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Code splitting + Common chunks</h2>
+    <img style="background-color: white; max-width: 600px" src="/images/code-split.png" alt="">
+    <p class="hint">Code splitting is the splitting of code into various bundles or chunks which can then be loaded on demand or in parallel.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Lazy loading</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/lazy-load-2.png" alt="">
+    <p class="hint">Lazy loading is a strategy to identify resources as non-blocking (non-critical) and load these only when needed.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Tree Shaking</h2>
+    <img style="background-color: white; max-width: 1000px" src="/images/tree-shaking.png" alt="">
+    <p class="hint">Tree Shaking or dead code elimination relies on the import and export statements to detect if code modules are exported and imported for use between JavaScript files.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Minify</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/minifying.png" alt="">
+    <p class="hint">Minification is the process of removing all unnecessary characters from your code without altering its functionality.<br>This includes the removal of whitespace, comments, and any other element that is not necessary.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Uglify</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/Uglifying.png" alt="">
+    <p class="hint">Uglifying is transforming the code into an "unreadable" form by changing variable names, function names, etc, to hide the original content, and make the bundle smaller.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Development</h2>
+    <p class="hint">Dev Server</p>
+    <p class="hint">Hot module replacement</p>
+    <p class="hint">Transpiling</p>
+    <p class="hint">CSS imports and modules</p>
+    <p class="hint">Static asset handling</p>
+    <p class="hint">Source maps</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Hot Module Replacement</h2>
+    <p class="hint">Hot Module Replacement (HMR) exchanges, adds, or removes modules while an application is running, without a full reload.</p>
+    <p class="hint">This can speed up development because the dev can continue their work while retaining application state.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Transpiling</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/transpile.png" alt="">
+    <p class="hint">Transpiling is the process of taking source code written in one language and transforming it into another language.<br>We can use the builders transpiler options to transpile typescript, framework specific code like JSX, CSS preprocessors, post-css, etc.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">CSS Handling</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/css-hanlde.jpg" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Static Asset handling</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/image-handle.jpeg" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Source Maps</h2>
+    <img style="background-color: white; max-width: 900px" src="/images/sourcemaps.png" alt="">
+    <p class="hint">A source map is a file that maps from the transformed source to the original source, enabling the browser to reconstruct the original source.</p>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
