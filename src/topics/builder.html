@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Builder</h1>
+    <img style="max-width: 900px" src="/images/builder.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <p class="hint">If you need to construct an object that requires complex initialization due to business logic, dependencies, nested fields, conditionals, etc.</p>
+    <p class="hint">Keeping a lot of logic just for initialization in a single class constructor can be messy and difficult to maintain.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <pre>
+      <code class="language-javascript">
+        class Car {
+          constructor(brand, color, amountOfDoors, fuelType, productionDate, battery, motor, seatMaterial) {
+            this.brand = brand;
+            this.color = color;
+            this.amountOfDoors = amountOfDoors;
+            this.fuelType = fuelType;
+            this.productionDate = productionDate;
+            this.battery = battery;
+            this.motor = motor;
+            this.seatMaterial = seatMaterial;
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">Initializing properties can become messy and difficult to maintain if there are a lot of them.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem - Optional requirements</h2>
+    <pre>
+      <code class="language-javascript">
+        class Car {
+          constructor({ brand, color, amountOfDoors, fuelType, productionDate, specialPolish, customPlate, extendedWarranty }) {
+            this.brand = brand;
+            this.color = color;
+            this.amountOfDoors = amountOfDoors;
+            this.fuelType = fuelType;
+            this.productionDate = productionDate;
+
+            if (specialPolish) {
+              this.includePolishing = true;
+              this.specialPolish = specialPolish;
+            }
+
+            if (customPlate) {
+              this.customPlate = customPlate;
+            }
+
+            if (extendedWarranty) {
+              this.extendedWarranty = true;
+              this.extendedWarrantyTime = extendedWarranty;
+            }
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">Initializing properties can become messy and difficult to maintain if some are required and some optional.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem - Initialization logic</h2>
+    <pre>
+      <code class="language-javascript">
+        class Car {
+          constructor({ brand, color, amountOfDoors, fuelType, productionDate, specialPolish, customPlate, extendedWarranty }) {
+            this.brand = brand;
+            this.color = color;
+            this.amountOfDoors = amountOfDoors === 2 || amountOfDoors === 4 ? amountOfDoors : 4;
+            this.fuelType = fuelType === 'petrol' || fuelType === 'diesel' ? fuelType : 'diesel';
+            this.productionDate = productionDate;
+
+            if (specialPolish) {
+              this.includePolishing = true;
+              this.specialPolish = specialPolish;
+            }
+
+            if (customPlate) {
+              this.customPlate = customPlate;
+            }
+
+            if (extendedWarranty) {
+              this.extendedWarranty = true;
+              this.extendedWarrantyTime = extendedWarranty;
+            }
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">Initializing properties can become messy and difficult to maintain if there's a lot of complex logic required before initialization.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Builder</h2>
+    <h3 class="slide-subtitle">Class Implementation</h3>
+    <pre>
+      <code class="language-javascript">
+        class Car {
+          setBrand(brand) {
+            this.brand = brand;
+            return this;
+          }
+
+          setColor(color) {
+            this.color = color;
+            return this;
+          }
+  
+          setFuelType(fuelType) {
+            this.fuelType = fuelType;
+            return this;
+          }
+  
+          setProductionDate(date) {
+            this.productionDate = date;
+            return this;
+          }
+
+          withSpecialPolish(specialPolish) {
+            this.includePolishing = true;
+            this.specialPolish = specialPolish;
+            return this;
+          }
+
+          withExtendedWarranty(extendedWarranty) {
+            this.extendedWarranty = true;
+            this.extendedWarrantyTime = extendedWarranty;
+            return this;
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">A class builder can keep all the required properties in the constructor, and move all the ones that require complex logic or are optional to its methods.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Builder</h2>
+    <h3 class="slide-subtitle">Usage</h3>
+    <pre>
+      <code class="language-javascript">
+        const HondaCar = new Car()
+          .setBrand('Honda')
+          .setColor('blue')
+          .setProductionDate(new Date())
+          .withSpecialPolish('premium');
+
+        const AudiCar = new Car()
+          .setBrand('Audi')
+          .setColor('gray')
+          .setFuelType('diesel')
+          .withExtendedWarranty('3 years');
+      </code>
+    </pre>
+    <p class="hint">Initialization can then be performed using object chains.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Builder</h2>
+    <h3 class="slide-subtitle">Class Implementation</h3>
+    <pre>
+      <code class="language-javascript">
+        class Car {
+          // ...
+
+          withTwoDoors() {
+            this.amountOfDoors = 2;
+          }
+
+          withFourDoors() {
+            this.amountOfDoors = 4;
+          }
+
+          withPetrolFuel() {
+            this.fuelType = 'petrol';
+          }
+
+          withDieselFuel() {
+            this.fuelType = 'diesel';
+          }
+        }
+      </code>
+    </pre>
+    <p class="hint">With methods, the property values can be controlled so that the user only has valid options to choose from.</p>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
