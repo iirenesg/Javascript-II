@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>Javascript IV</title>
+  <link rel="stylesheet" type="text/css" href="../build/build.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<article class="deck">
+
+  <section class="bg-yellow">
+    <h1>Middleware / Chain of responsibility</h1>
+    <img style="max-width: 900px" src="/images/chain.png" alt="">
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">The problem</h2>
+    <p class="hint">The chain of responsibility pattern is useful when you need to perform a series of actions sequentially. Or when a method or function requires some actions be performed before it runs.</p>
+    <p class="hint">The pattern suggests that you link these actions into a chain. Each linked handler has a reference to the next handler in the chain.</p>
+    <p class="hint">In addition to processing a request, handlers pass the request further along the chain, or they can can decide not to pass the request further down the chain and effectively stop any further processing.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2>Middleware pattern in Node.js applications</h2>
+    <img style="max-width: 900px" src="/images/middleware.png" alt="">
+    <p class="hint">A lot of Node.js libraries like Express use the middleware pattern to handle the requests and responses.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Middleware</h2>
+    <h3 class="slide-subtitle">Pipeline Implementation</h3>
+    <pre>
+      <code class="language-javascript">
+        function Pipeline() {
+          const stack = [];
+        
+          const push = (...middlewares) => {
+            stack.push(...middlewares);
+          }
+        
+          const execute = async (context) => {
+            let prevIndex = -1;
+        
+            const runner = async (index) => {
+              const middleware = stack[index];
+              prevIndex = index;
+              
+              if (middleware) {
+                await middleware(context, () => {
+                  return runner(index + 1)
+                })
+              }
+            }
+        
+            await runner(0)
+          }
+        
+          return { push, execute }
+        }
+      </code>
+    </pre>
+    <p class="hint">The pipeline implementation saves a list of the middleware methods and calls them recursively.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Middleware</h2>
+    <h3 class="slide-subtitle">Pipeline Implementation</h3>
+    <pre>
+      <code class="language-javascript">
+        const pipeline = Pipeline()
+
+        pipeline.push(
+          (ctx, next) => {
+            ctx.value = ctx.value + 21
+            next();
+          },
+          (ctx, next) => {
+            ctx.value = ctx.value * 2
+            next();
+          }
+        )
+
+        pipeline.push((ctx, next) => {
+          console.log(ctx) // not calling `next()` will terminate the pipeline
+        });
+
+        pipeline.execute({ value: 0 })
+      </code>
+    </pre>
+    <!-- <p class="hint">.</p> -->
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Middleware</h2>
+    <h3 class="slide-subtitle">Function composition</h3>
+    <pre>
+      <code class="language-javascript">
+        class Pipeline {
+          constructor(context) {
+            this.context = context;
+          }
+        
+          setUpMiddleware(stack, middleware) {
+            return (next) => {
+              stack(middleware.bind(this, this.context, next.bind(this, this.context)));
+            };
+          };
+        
+          use(middleware) {
+            this.execute = this.setUpMiddleware(this.execute, middleware);
+          }
+        
+          execute = next => next();
+        }
+      </code>
+    </pre>
+    <p class="hint">With composition, functions can wrap each other and form a chain, this way each function has access to the outer function scope.</p>
+  </section>
+
+  <section class="bg-yellow">
+    <h2 class="slide-title">Middleware</h2>
+    <h3 class="slide-subtitle">Function composition</h3>
+    <pre>
+      <code class="language-javascript">
+        var pipeline = new Pipeline({ orderId: 1234 });
+
+        function setUpTaxes(order, next) {
+          order.taxes = '$20';
+          next();
+        }
+        function setUpPromotion(order, next) {
+          order.promotion = '10%';
+          next();
+        }
+        function processOrder(order) {
+          console.log(order.taxes);
+          console.log(order.promotion);
+        }
+
+        pipeline.use(setUpPromotion);
+        pipeline.use(setUpTaxes);
+        pipeline.execute(processOrder);
+      </code>
+    </pre>
+    <p class="hint">With this implementation, the use method handles setting up the middlewares, and the execute method runs the saved middlewares and the last method.</p>
+  </section>
+
+<script src="../build/build.js"></script>
+
+</body>
+</html>
